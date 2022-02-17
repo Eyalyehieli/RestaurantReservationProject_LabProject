@@ -1,0 +1,26 @@
+﻿<Window x:Class="Restaurant_reservation_project.ManangerCode"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Restaurant_reservation_project"
+        mc:Ignorable="d"
+        Title="ManangerCode" Height="450" Width="800">
+    <Grid>
+        <Button Content="1" HorizontalAlignment="Left" Margin="270,125,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click"/>
+        <Button Content="3" HorizontalAlignment="Left" Margin="437,125,0,0" VerticalAlignment="Top" Width="84" RenderTransformOrigin="0.545,0.562" Height="54" Click="Button_Click"/>
+        <Button Content="2" HorizontalAlignment="Left" Margin="354,125,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click"/>
+        <Button Content="9" HorizontalAlignment="Left" Margin="437,222,0,0" VerticalAlignment="Top" Width="84" Height="65" Click="Button_Click"/>
+        <Button Content="8" HorizontalAlignment="Left" Margin="354,222,0,0" VerticalAlignment="Top" Width="84" Height="65" Click="Button_Click"/>
+        <Button Content="7" HorizontalAlignment="Left" Margin="270,222,0,0" VerticalAlignment="Top" Width="84" Height="65" Click="Button_Click"/>
+        <Button Content="6" HorizontalAlignment="Left" Margin="437,179,0,0" VerticalAlignment="Top" Width="84" Height="54" RenderTransformOrigin="0.591,0.476" Click="Button_Click"/>
+        <Button Content="5" HorizontalAlignment="Left" Margin="353,179,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click"/>
+        <Button Content="4" HorizontalAlignment="Left" Margin="270,179,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click"/>
+        <Button Content="0" HorizontalAlignment="Left" Margin="353,287,0,0" VerticalAlignment="Top" Width="85" Height="41" Click="Button_Click"/>
+        <Button Content="Del" HorizontalAlignment="Left" Margin="437,287,0,0" VerticalAlignment="Top" Width="84" Height="41" Click="Button_Click"/>
+        <Label Content="Enter Code:" HorizontalAlignment="Left" Margin="270,67,0,0" VerticalAlignment="Top"/>
+        <Label Name="password_lbl"  Content="" HorizontalAlignment="Left" Margin="353,67,0,0" VerticalAlignment="Top" Width="168"/>
+        <Button Name="Continue" Content="Enter" HorizontalAlignment="Left" Margin="270,286,0,0" VerticalAlignment="Top" Width="84" Height="41" Click="Button_Click"/>
+
+    </Grid>
+</Window>

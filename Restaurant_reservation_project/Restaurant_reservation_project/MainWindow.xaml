@@ -1,0 +1,52 @@
+﻿<Window x:Class="Restaurant_reservation_project.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Restaurant_reservation_project"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button x:Name="table1_btn"  Content="1" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table2_btn" Content="2" HorizontalAlignment="Left" Margin="10,151,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table13_btn" Content="13" HorizontalAlignment="Left" Margin="708,48,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table10_btn" Content="10" HorizontalAlignment="Left" Margin="604,48,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table7_btn" Content="7" HorizontalAlignment="Left" Margin="285,275,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table4_btn" Content="4" HorizontalAlignment="Left" Margin="118,35,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table5_btn" Content="5" HorizontalAlignment="Left" Margin="118,151,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table14_btn" Content="14" HorizontalAlignment="Left" Margin="708,151,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table11_btn" Content="11" HorizontalAlignment="Left" Margin="604,151,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table8_btn" Content="8" HorizontalAlignment="Left" Margin="360,275,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table15_btn" Content="15" HorizontalAlignment="Left" Margin="708,257,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table12_btn" Content="12" HorizontalAlignment="Left" Margin="604,257,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table9_btn" Content="9" HorizontalAlignment="Left" Margin="435,275,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click"  MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table6_btn" Content="6" HorizontalAlignment="Left" Margin="118,257,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table3_btn" Content="3" HorizontalAlignment="Left" Margin="10,257,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table16_btn" Content="16" HorizontalAlignment="Left" Margin="62,35,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table19_btn" Content="19" HorizontalAlignment="Left" Margin="659,48,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table18_btn" Content="18" HorizontalAlignment="Left" Margin="536,134,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table17_btn" Content="17" HorizontalAlignment="Left" Margin="186,134,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table28_btn" Content="28" HorizontalAlignment="Left" Margin="35,336,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table27_btn" Content="27" HorizontalAlignment="Left" Margin="659,257,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table26_btn" Content="26" HorizontalAlignment="Left" Margin="564,336,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table25_btn" Content="25" HorizontalAlignment="Left" Margin="146,336,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table24_btn" Content="24" HorizontalAlignment="Left" Margin="62,257,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table23_btn" Content="23" HorizontalAlignment="Left" Margin="659,151,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table22_btn" Content="22" HorizontalAlignment="Left" Margin="534,257,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table21_btn" Content="21" HorizontalAlignment="Left" Margin="194,257,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table20_btn" Content="20" HorizontalAlignment="Left" Margin="62,151,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="table29_btn" Content="29" HorizontalAlignment="Left" Margin="676,336,0,0" VerticalAlignment="Top" Width="75" Height="55" Click="Button_Click" MouseEnter="table1_btn_MouseEnter" MouseLeave="table1_btn_MouseLeave"/>
+        <Button x:Name="switcher" Content="" HorizontalAlignment="Left" Margin="330,359,0,0" VerticalAlignment="Top" Width="154" Height="40" Click="switcher_Click"/>
+        <StackPanel>
+            <Menu>
+                <MenuItem Header="Settings">
+                    <MenuItem Header="Change Manager Password" Click="MenuItem_Click"/>
+                    <MenuItem Header="Workers" Click="MenuItem_Click_1" />
+                    <MenuItem Header="Dishes" Click="MenuItem_Click_2" />
+                </MenuItem>
+            </Menu>
+            <DataGrid x:Name="showTableGrid" Height="248" Margin="273,0,267.333,0"/>
+        </StackPanel>
+        <Label x:Name="lbl_payment" Content="" HorizontalAlignment="Left" Margin="273,227,0,0" VerticalAlignment="Top" Width="254" Height="35"/>
+    </Grid>
+</Window>
