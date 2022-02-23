@@ -98,12 +98,12 @@ namespace Server_project
             return collection.Find(new BsonDocument()).ToList();
         }
 
-        public T LoadRecordById<T>(string table ,Guid id)
+        /*public T LoadRecordById<T>(string table ,Guid id)
         {
             var collection = database.GetCollection<T>(table);
             var filter = Builders<T>.Filter.Eq("Id", id);
             return collection.Find(filter).First();
-        }
+        }*/
 
 
         public void UpdateRecord<T>(string table,Guid id,T record)

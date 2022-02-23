@@ -29,13 +29,7 @@ namespace Restaurant_reservation_project
         {
             InitializeComponent();
             this.stream = stream;
-            category_lbl.Visibility = Visibility.Hidden;
-            price_lbl.Visibility = Visibility.Hidden;
-            name_lbl.Visibility = Visibility.Hidden;
-            category_txb.Visibility = Visibility.Hidden;
-            price_txb.Visibility = Visibility.Hidden;
-            name_txb.Visibility = Visibility.Hidden;
-            done_btn.Visibility = Visibility.Hidden;
+            hideProperControls();
             create_data_grid_columns(dishes_data_grid);
         }
 
@@ -85,33 +79,13 @@ namespace Restaurant_reservation_project
 
         private void add_btn_Click(object sender, RoutedEventArgs e)
         {
-            add_btn.Visibility = Visibility.Hidden;
-            edit_btn.Visibility = Visibility.Hidden;
-            delete_btn.Visibility = Visibility.Hidden;
-            dishes_data_grid.Visibility = Visibility.Hidden;
-            category_lbl.Visibility = Visibility.Visible;
-            price_lbl.Visibility = Visibility.Visible;
-            name_lbl.Visibility = Visibility.Visible;
-            category_txb.Visibility = Visibility.Visible;
-            price_txb.Visibility = Visibility.Visible;
-            name_txb.Visibility = Visibility.Visible;
-            done_btn.Visibility = Visibility.Visible;
+            showProperControls();
             dishDBEvent = DB_EVENT_DISH.INSERT_DISH;
         }
 
         private void edit_btn_Click(object sender, RoutedEventArgs e)
         {
-            add_btn.Visibility = Visibility.Hidden;
-            edit_btn.Visibility = Visibility.Hidden;
-            delete_btn.Visibility = Visibility.Hidden;
-            dishes_data_grid.Visibility = Visibility.Hidden;
-            category_lbl.Visibility = Visibility.Visible;
-            price_lbl.Visibility = Visibility.Visible;
-            name_lbl.Visibility = Visibility.Visible;
-            category_txb.Visibility = Visibility.Visible;
-            price_txb.Visibility = Visibility.Visible;
-            name_txb.Visibility = Visibility.Visible;
-            done_btn.Visibility = Visibility.Visible;
+            showProperControls();
             if (dishes_data_grid != null && dishes_data_grid.SelectedItems != null && dishes_data_grid.SelectedItems.Count == 1)
             {
                 prevDish = (dishes)dishes_data_grid.SelectedItem;
@@ -145,17 +119,7 @@ namespace Restaurant_reservation_project
                 NetWorking.sentIntOverNetStream(stream, newPrice);
                 NetWorking.sentStringOverNetStream(stream, newCategory);
             }
-            add_btn.Visibility = Visibility.Visible;
-            edit_btn.Visibility = Visibility.Visible;
-            delete_btn.Visibility = Visibility.Visible;
-            dishes_data_grid.Visibility = Visibility.Visible;
-            category_lbl.Visibility = Visibility.Hidden;
-            price_lbl.Visibility = Visibility.Hidden;
-            name_lbl.Visibility = Visibility.Hidden;
-            category_txb.Visibility = Visibility.Hidden;
-            price_txb.Visibility = Visibility.Hidden;
-            name_txb.Visibility = Visibility.Hidden;
-            done_btn.Visibility = Visibility.Hidden;
+            hideProperControls();
             dishes_data_grid.Items.Clear();
         }
 
@@ -173,6 +137,25 @@ namespace Restaurant_reservation_project
             NetWorking.sentStringOverNetStream(stream, dish.name);
             NetWorking.sentIntOverNetStream(stream, dish.price);
             NetWorking.sentStringOverNetStream(stream, dish.category);
+            hideProperControls();
+            dishes_data_grid.Items.Clear();
+        }
+        public void showProperControls()
+        {
+            add_btn.Visibility = Visibility.Hidden;
+            edit_btn.Visibility = Visibility.Hidden;
+            delete_btn.Visibility = Visibility.Hidden;
+            dishes_data_grid.Visibility = Visibility.Hidden;
+            category_lbl.Visibility = Visibility.Visible;
+            price_lbl.Visibility = Visibility.Visible;
+            name_lbl.Visibility = Visibility.Visible;
+            category_txb.Visibility = Visibility.Visible;
+            price_txb.Visibility = Visibility.Visible;
+            name_txb.Visibility = Visibility.Visible;
+            done_btn.Visibility = Visibility.Visible;
+        }
+        public void hideProperControls()
+        {
             add_btn.Visibility = Visibility.Visible;
             edit_btn.Visibility = Visibility.Visible;
             delete_btn.Visibility = Visibility.Visible;
@@ -184,7 +167,6 @@ namespace Restaurant_reservation_project
             price_txb.Visibility = Visibility.Hidden;
             name_txb.Visibility = Visibility.Hidden;
             done_btn.Visibility = Visibility.Hidden;
-            dishes_data_grid.Items.Clear();
         }
     }
 }

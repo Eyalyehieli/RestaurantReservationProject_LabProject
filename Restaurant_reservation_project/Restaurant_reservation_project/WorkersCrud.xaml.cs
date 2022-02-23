@@ -32,13 +32,7 @@ namespace Restaurant_reservation_project
             this.stream = stream;
             create_data_grid_columns(workers_data_grid);
             loadWorkers();
-            firstName_lbl.Visibility = Visibility.Hidden;
-            lastName_lbl.Visibility = Visibility.Hidden;
-            priority_lbl.Visibility = Visibility.Hidden;
-            firstName_txb.Visibility = Visibility.Hidden;
-            lastName_txb.Visibility = Visibility.Hidden;
-            priority_txb.Visibility = Visibility.Hidden;
-            done_btn.Visibility = Visibility.Hidden;
+            hideProperControls();
         }
 
         private void create_data_grid_columns(DataGrid dataGrid)
@@ -79,17 +73,7 @@ namespace Restaurant_reservation_project
 
         private void add_btn_Click(object sender, RoutedEventArgs e)
         {
-            add_btn.Visibility = Visibility.Hidden;
-            edit_btn.Visibility = Visibility.Hidden;
-            delete_btn.Visibility = Visibility.Hidden;
-            workers_data_grid.Visibility = Visibility.Hidden;
-            firstName_lbl.Visibility = Visibility.Visible;
-            lastName_lbl.Visibility = Visibility.Visible;
-            priority_lbl.Visibility = Visibility.Visible;
-            firstName_txb.Visibility = Visibility.Visible;
-            lastName_txb.Visibility = Visibility.Visible;
-            priority_txb.Visibility = Visibility.Visible;
-            done_btn.Visibility = Visibility.Visible;
+            showProperControls();
             WorkerDBEvent = DB_EVENTS_WORKER.INSERT_WORKER;
         }
 
@@ -106,7 +90,7 @@ namespace Restaurant_reservation_project
                 NetWorking.sentStringOverNetStream(stream, newLastName);
                 NetWorking.sentStringOverNetStream(stream, newPriority);
             }
-            else
+            else//WorkerDBEvent==DB_EVENTS_WORKER.EDIT_WORKER
             {
                 NetWorking.SendRequest(stream, NetWorking.Requestes.UPDATE_WORKER);
                 NetWorking.sentStringOverNetStream(stream, prevWorker.first_name);
@@ -116,33 +100,13 @@ namespace Restaurant_reservation_project
                 NetWorking.sentStringOverNetStream(stream, newLastName);
                 NetWorking.sentStringOverNetStream(stream, newPriority);
             }
-            add_btn.Visibility = Visibility.Visible;
-            edit_btn.Visibility = Visibility.Visible;
-            delete_btn.Visibility = Visibility.Visible;
-            workers_data_grid.Visibility = Visibility.Visible;
-            firstName_lbl.Visibility = Visibility.Hidden;
-            lastName_lbl.Visibility = Visibility.Hidden;
-            priority_lbl.Visibility = Visibility.Hidden;
-            firstName_txb.Visibility = Visibility.Hidden;
-            lastName_txb.Visibility = Visibility.Hidden;
-            priority_txb.Visibility = Visibility.Hidden;
-            done_btn.Visibility = Visibility.Hidden;
+            hideProperControls();
             loadWorkers();
          }
 
         private void edit_btn_Click(object sender, RoutedEventArgs e)
         {
-            add_btn.Visibility = Visibility.Hidden;
-            edit_btn.Visibility = Visibility.Hidden;
-            delete_btn.Visibility = Visibility.Hidden;
-            workers_data_grid.Visibility = Visibility.Hidden;
-            firstName_lbl.Visibility = Visibility.Visible;
-            lastName_lbl.Visibility = Visibility.Visible;
-            priority_lbl.Visibility = Visibility.Visible;
-            firstName_txb.Visibility = Visibility.Visible;
-            lastName_txb.Visibility = Visibility.Visible;
-            priority_txb.Visibility = Visibility.Visible;
-            done_btn.Visibility = Visibility.Visible;
+            showProperControls();
             if (workers_data_grid != null && workers_data_grid.SelectedItems != null && workers_data_grid.SelectedItems.Count == 1)
             {
                 prevWorker = (Worker)workers_data_grid.SelectedItem;
@@ -167,6 +131,26 @@ namespace Restaurant_reservation_project
             NetWorking.sentStringOverNetStream(stream, worker.first_name);
             NetWorking.sentStringOverNetStream(stream, worker.last_name);
             NetWorking.sentStringOverNetStream(stream, worker.accessPriority);
+            hideProperControls();
+            loadWorkers();
+        }
+
+        public void showProperControls()
+        {
+            add_btn.Visibility = Visibility.Hidden;
+            edit_btn.Visibility = Visibility.Hidden;
+            delete_btn.Visibility = Visibility.Hidden;
+            workers_data_grid.Visibility = Visibility.Hidden;
+            firstName_lbl.Visibility = Visibility.Visible;
+            lastName_lbl.Visibility = Visibility.Visible;
+            priority_lbl.Visibility = Visibility.Visible;
+            firstName_txb.Visibility = Visibility.Visible;
+            lastName_txb.Visibility = Visibility.Visible;
+            priority_txb.Visibility = Visibility.Visible;
+            done_btn.Visibility = Visibility.Visible;
+        }
+        public void hideProperControls()
+        {
             add_btn.Visibility = Visibility.Visible;
             edit_btn.Visibility = Visibility.Visible;
             delete_btn.Visibility = Visibility.Visible;
@@ -178,7 +162,6 @@ namespace Restaurant_reservation_project
             lastName_txb.Visibility = Visibility.Hidden;
             priority_txb.Visibility = Visibility.Hidden;
             done_btn.Visibility = Visibility.Hidden;
-            loadWorkers();
         }
     }
 }

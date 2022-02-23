@@ -40,9 +40,9 @@
         <StackPanel>
             <Menu>
                 <MenuItem Header="Settings">
-                    <MenuItem Header="Change Manager Password" Click="MenuItem_Click"/>
-                    <MenuItem Header="Workers" Click="MenuItem_Click_1" />
-                    <MenuItem Header="Dishes" Click="MenuItem_Click_2" />
+                    <MenuItem Header="Change Manager Password" Click="MenuItem_Click_ManagerCode"/>
+                    <MenuItem Header="Workers" Click="MenuItem_Click_WorkersCrud" />
+                    <MenuItem Header="Dishes" Click="MenuItem_Click_DishesCrud" />
                 </MenuItem>
             </Menu>
             <DataGrid x:Name="showTableGrid" Height="248" Margin="273,0,267.333,0"/>

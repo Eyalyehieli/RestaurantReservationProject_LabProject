@@ -46,7 +46,7 @@ namespace Server_project
         Mutex workersCrudMutex;
         Mutex dishesCrudMutex;
         bool[] is_occupied_tables = new bool[NUMBER_OF_TABLES];
-        string messagesText = "";
+        //string messagesText = "";
  
 
         public MainWindow()
@@ -67,7 +67,8 @@ namespace Server_project
         {
             txb.Dispatcher.Invoke(() =>
             {
-                txb.Text += text;
+                txb.Text += text+Environment.NewLine;
+
             });
         }
 
@@ -94,47 +95,50 @@ namespace Server_project
         }
         public void startClient(int clientNumber)
         {
-            byte[] request;
-             while (true)
-             {
-                request = NetWorking.GetRequest(streamsInput[clientNumber]);
-                switch ((NetWorking.Requestes)request[0])
+            Task.Run(() =>
+            {
+                byte[] request;
+                while (true)
                 {
-                    case NetWorking.Requestes.GET_ALL_WORKERS: Get_all_workers(streamsInput[clientNumber]); break;
-                    case NetWorking.Requestes.GET_DISHES_BY_CATEGORY:Get_dishes_by_category(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.GET_RESERVATION:Get_reservation_by_table_number(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.GET_WORKER_OF_RESERVATION:Get_worker_name_of_reservation(streamsInput[clientNumber]);break;
-                    //case NetWorking.Requestes.INSERT_RESERVAION:Insert_reservation(streamsInput[clientNumber]);break;
-                    //case NetWorking.Requestes.UPDATE_RESERVAION: Update_reservation(streamsInput[clientNumber]); break;
-                    //case NetWorking.Requestes.TERMINATE_RESERVATION: Terminate_reservation(streamsInput[clientNumber]); break;
-                    case NetWorking.Requestes.UPSERT_RESERVATION: upsert_reservation(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.WAIT_ONE_MUTEX:wait_one_mutex(streamsInput[clientNumber],clientNumber);break;
-                    case NetWorking.Requestes.RELEASE_MUTEX:release_mutex(streamsInput[clientNumber],clientNumber);break;
-                    case NetWorking.Requestes.WAIT_ONE_MUTEX_MANAGER:wait_one_mutex_manager(streamsInput[clientNumber],clientNumber);break;
-                    case NetWorking.Requestes.IS_OCCUPEID_TABLE:is_occupied_table(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.WAIT_ONE_TABLE:wait_one_table(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.RELEASE_TABLE:release_table(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.GET_MANAGER_CODE:Get_manager_code(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.CHANGE_MANAGER_CODE:change_manager_code(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.WAIT_ONE_MANAGER_CODE:wait_one_manager_code_mutex(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.RELEASE_MANAGER_CODE_MUTEX:release_manager_code_mutex(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.WAIT_ONE_WORKERS_CRUD:wait_one_workers_crud_mutex(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.RELEASE_WORKERS_CRUD_MUTEX:release_workers_crud_mutex(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.WAIT_ONE_DISHES_CRUD:wait_one_dishes_crud_mutex(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.RELEASE_DISHES_CRUD_MUTEX:release_dishes_crud_mutex(streamsInput[clientNumber]);break;
-                    // case NetWorking.Requestes.UPSERT_WORKER: upsert_worker(streamsInput[clientNumber]);break;
-                    // case NetWorking.Requestes.UPSERT_DISH:upsert_dish(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.INSERT_WORKER: Insert_worker(streamsInput[clientNumber]); break;
-                    case NetWorking.Requestes.UPDATE_WORKER: Update_Worker(streamsInput[clientNumber]); break;
-                    case NetWorking.Requestes.INSERT_DISH: Insert_dish(streamsInput[clientNumber]); break;
-                    case NetWorking.Requestes.UPDATE_DISH: Update_dish(streamsInput[clientNumber]); break;
-                    case NetWorking.Requestes.DELETE_WORKER:delete_worker(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.DELETE_DISH:delete_dish(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.UPDATE_WORKER_OF_RESERVATION:Update_worker_of_reservation(streamsInput[clientNumber]);break;
-                    case NetWorking.Requestes.UPDATE_TABLE_NUMBER_OF_RESERVATION:Update_table_number_of_reservation(streamsInput[clientNumber],clientNumber);break;
-                    case NetWorking.Requestes.GET_OCCUPIED_TABLES:Get_occupied_tables(streamsInput[clientNumber]);break;
+                    request = NetWorking.GetRequest(streamsInput[clientNumber]);
+                    switch ((NetWorking.Requestes)request[0])
+                    {
+                        case NetWorking.Requestes.GET_ALL_WORKERS: UpdateTextBlock(messages_txb, "client number "+clientNumber+ " GET_ALL_WORKERS");Get_all_workers(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.GET_DISHES_BY_CATEGORY: UpdateTextBlock(messages_txb, "client number " + clientNumber + " GET_DISHES_BY_CATEGORY");Get_dishes_by_category(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.GET_RESERVATION: UpdateTextBlock(messages_txb, "client number " + clientNumber + " GET_RESRVATION"); Get_reservation_by_table_number(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.GET_WORKER_OF_RESERVATION: UpdateTextBlock(messages_txb, "client number " + clientNumber + " GET_WORKER_OF_RESRVATION"); Get_worker_name_of_reservation(streamsInput[clientNumber]); break;
+                        //case NetWorking.Requestes.INSERT_RESERVAION:Insert_reservation(streamsInput[clientNumber]);break;
+                        //case NetWorking.Requestes.UPDATE_RESERVAION: Update_reservation(streamsInput[clientNumber]); break;
+                        //case NetWorking.Requestes.TERMINATE_RESERVATION: Terminate_reservation(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.UPSERT_RESERVATION: UpdateTextBlock(messages_txb, "client number " + clientNumber + " UPSERT_RESERVATION"); upsert_reservation(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.WAIT_ONE_MUTEX: UpdateTextBlock(messages_txb, "client number " + clientNumber + " WAIT_ONE_MUTEX"); wait_one_mutex(streamsInput[clientNumber], clientNumber); break;
+                        case NetWorking.Requestes.RELEASE_MUTEX: UpdateTextBlock(messages_txb, "client number " + clientNumber + " RELEASE_MUTEX"); release_mutex(streamsInput[clientNumber], clientNumber); break;
+                        case NetWorking.Requestes.WAIT_ONE_MUTEX_MANAGER: UpdateTextBlock(messages_txb, "client number " + clientNumber + " WAIT_ONE_MUTEX_MANAGER"); wait_one_mutex_manager(streamsInput[clientNumber], clientNumber); break;
+                        case NetWorking.Requestes.IS_OCCUPEID_TABLE: UpdateTextBlock(messages_txb, "client number " + clientNumber + " IS_OCCUPIED_TABLE"); is_occupied_table(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.WAIT_ONE_TABLE: UpdateTextBlock(messages_txb, "client number " + clientNumber + " WAIT_ONE_TABLE"); wait_one_table(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.RELEASE_TABLE: UpdateTextBlock(messages_txb, "client number " + clientNumber + " RELEASE_TABLE"); release_table(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.GET_MANAGER_CODE: UpdateTextBlock(messages_txb, "client number " + clientNumber + " GET_MANAGER_CODE"); Get_manager_code(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.CHANGE_MANAGER_CODE: UpdateTextBlock(messages_txb, "client number " + clientNumber + " CHANGE_MANAGER_CODE"); change_manager_code(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.WAIT_ONE_MANAGER_CODE: UpdateTextBlock(messages_txb, "client number " + clientNumber + " WAIT_ONE_MANAGER_CODE"); wait_one_manager_code_mutex(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.RELEASE_MANAGER_CODE_MUTEX: UpdateTextBlock(messages_txb, "client number " + clientNumber + " RELEASE_MANAGER_CODE_MUTEX"); release_manager_code_mutex(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.WAIT_ONE_WORKERS_CRUD: UpdateTextBlock(messages_txb, "client number " + clientNumber + " WAIT_ONE_WORKER_CRUD"); wait_one_workers_crud_mutex(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.RELEASE_WORKERS_CRUD_MUTEX: UpdateTextBlock(messages_txb, "client number " + clientNumber + " RELEASE_WORKERS_CRUD_MUTEX"); release_workers_crud_mutex(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.WAIT_ONE_DISHES_CRUD: UpdateTextBlock(messages_txb, "client number " + clientNumber + " WAIT_ONE_DISHES_CRUD"); wait_one_dishes_crud_mutex(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.RELEASE_DISHES_CRUD_MUTEX: UpdateTextBlock(messages_txb, "client number " + clientNumber + " RELEASE_DISHES_CRUD_MUTEX"); release_dishes_crud_mutex(streamsInput[clientNumber]); break;
+                        // case NetWorking.Requestes.UPSERT_WORKER: upsert_worker(streamsInput[clientNumber]);break;
+                        // case NetWorking.Requestes.UPSERT_DISH:upsert_dish(streamsInput[clientNumber]);break;
+                        case NetWorking.Requestes.INSERT_WORKER: UpdateTextBlock(messages_txb, "client number " + clientNumber + " INSERT_WORKER"); Insert_worker(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.UPDATE_WORKER: UpdateTextBlock(messages_txb, "client number " + clientNumber + " UPDATE_WORKER"); Update_Worker(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.INSERT_DISH: UpdateTextBlock(messages_txb, "client number " + clientNumber + " INSERT_DISH"); Insert_dish(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.UPDATE_DISH: UpdateTextBlock(messages_txb, "client number " + clientNumber + " UPDATE_DISH"); Update_dish(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.DELETE_WORKER: UpdateTextBlock(messages_txb, "client number " + clientNumber + " DELETE_WORKER"); delete_worker(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.DELETE_DISH: UpdateTextBlock(messages_txb, "client number " + clientNumber + " DELETE_DISH"); delete_dish(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.UPDATE_WORKER_OF_RESERVATION: UpdateTextBlock(messages_txb, "client number " + clientNumber + " UPDATE_WORKER_OF_RESERVATION"); Update_worker_of_reservation(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.UPDATE_TABLE_NUMBER_OF_RESERVATION: UpdateTextBlock(messages_txb, "client number " + clientNumber + " UPDATE_TABLE_NUMBER_OF_RESERVATION"); Update_table_number_of_reservation(streamsInput[clientNumber], clientNumber); break;
+                        case NetWorking.Requestes.GET_OCCUPIED_TABLES: UpdateTextBlock(messages_txb, "client number " + clientNumber + " GET_OCCUPIED_TABLES"); Get_occupied_tables(streamsInput[clientNumber]); break;
+                    }
                 }
-            }
+            });
         }
 
         private void release_dishes_crud_mutex(NetworkStream networkStream)

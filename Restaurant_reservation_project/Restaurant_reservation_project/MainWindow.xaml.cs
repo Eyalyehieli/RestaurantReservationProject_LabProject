@@ -45,33 +45,35 @@ namespace Restaurant_reservation_project
             mouseEnterMutex = new Mutex();
         }
 
+        public bool isTableButton(Button b)
+        {
+            return (b.Content.ToString() != "Settings" && b.Content.ToString() != "change to external tables" && b.Content.ToString() != "change to iternal tables");
+        }
         private void showIternalTables()
         {
             switcher.Content = "change to external tables";
             foreach (Button b in listButtons)
             {
-                if (b.Content.ToString() != "change to external tables" && b.Content.ToString() != "change to iternal tables")
+                if (isTableButton(b))
                 {
-                    if (b.Content.ToString() != "Settings")
+                    if (Convert.ToInt32(b.Content.ToString()) > 15)//number of iternal tables=15
                     {
-                        if (Convert.ToInt32(b.Content.ToString()) > 15)//number of iternal tables=15
-                        {
-                            b.Visibility = Visibility.Hidden;
-                        }
-                        else
-                        {
-                            b.Visibility = Visibility.Visible;
-                        }
+                        b.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        b.Visibility = Visibility.Visible;
                     }
                 }
             }
         }
+
         private void showExternalTables()
         {
             switcher.Content = "change to iternal tables";
             foreach (Button b in listButtons)
             {
-                if (b.Content.ToString() != "change to external tables" && b.Content.ToString() != "change to iternal tables"&&b.Content.ToString() != "Settings")
+                if (isTableButton(b))
                 {
                     if (Convert.ToInt32(b.Content.ToString()) <= 15)
                     {
@@ -84,7 +86,6 @@ namespace Restaurant_reservation_project
                 }
             }
         }
-            
 
         private static void GetLogicalChildCollection<T>(DependencyObject parent, List<T> logicalCollection) where T : DependencyObject
         {
@@ -102,7 +103,7 @@ namespace Restaurant_reservation_project
                 }
             }
         }
-
+       
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button table_pressed_button = sender as Button;
@@ -125,31 +126,7 @@ namespace Restaurant_reservation_project
                 showIternalTables();
             }
         }
-
-        /*private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            NetworkStream streamer = socketOutput.GetStream();
-            NetWorking.SendRequest(streamer, NetWorking.Requestes.WAIT_ONE_SETTING_MUTEX);
-            bool status = NetWorking.getBoolOverNetStream(streamer);
-            if (status == false)
-            {
-                MessageBox.Show("Another Manager is in the settings, please check");
-            }
-            else
-            {
-                ManangerCode managerCode = new ManangerCode(tableReservation.GET_ACCESS, streamer);
-                this.Hide();
-                managerCode.ShowDialog();
-                settings sett = new settings(socketOutput.GetStream());
-                this.Hide();
-                sett.ShowDialog();
-                this.Show();
-            }
-            
-        }
-        */
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_ManagerCode(object sender, RoutedEventArgs e)
         {
             NetworkStream stream = socketOutput.GetStream();
             NetWorking.SendRequest(stream, NetWorking.Requestes.WAIT_ONE_MANAGER_CODE);
@@ -163,7 +140,7 @@ namespace Restaurant_reservation_project
                 ManangerCode managerCode = new ManangerCode(tableReservation.GET_ACCESS, stream);
                 this.Hide();
                 managerCode.ShowDialog();
-                ManangerCode manageCode = new ManangerCode(settings.CHANGE_PASSWORD,stream);
+                ManangerCode manageCode = new ManangerCode(ManangerCode.CHANGE_PASSWORD,stream);
                 this.Hide();
                 manageCode.ShowDialog();
                 this.Show();
@@ -171,7 +148,7 @@ namespace Restaurant_reservation_project
             }
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_WorkersCrud(object sender, RoutedEventArgs e)
         {
             NetworkStream stream = socketOutput.GetStream();
             NetWorking.SendRequest(stream, NetWorking.Requestes.WAIT_ONE_WORKERS_CRUD);
@@ -193,7 +170,7 @@ namespace Restaurant_reservation_project
             }
         }
 
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_DishesCrud(object sender, RoutedEventArgs e)
         {
             NetworkStream stream = socketOutput.GetStream();
             NetWorking.SendRequest(stream, NetWorking.Requestes.WAIT_ONE_DISHES_CRUD);
@@ -247,7 +224,7 @@ namespace Restaurant_reservation_project
                                                     //heavy code
             } while (!status);
 
-
+            //ask for reservation
             int payment = 0;
             int table_number = Convert.ToInt32(((Button)sender).Content);
             NetworkStream stream = socketOutput.GetStream();
@@ -258,6 +235,7 @@ namespace Restaurant_reservation_project
             NetWorking.sentIntOverNetStream(stream, table_number);
             NetWorking.sentBoolOverNetStream(stream, false);
 
+            //get dishes if reservation and add to the tableGrid
             do
             {
                 dish_string = NetWorking.getStringOverNetStream(stream);
@@ -265,10 +243,11 @@ namespace Restaurant_reservation_project
                 {
                     seperated_dish = dish_string.Split(' ');
                     dishOfReservation = new dishOfReservation(seperated_dish[0], Convert.ToInt32(seperated_dish[1]), seperated_dish[2], Convert.ToInt32(seperated_dish[3]));
-                    payment += dishOfReservation.price;
+                    payment += dishOfReservation.price*dishOfReservation.amount;
                     showTableGrid.Items.Add(dishOfReservation);
                 }
             } while (stream.DataAvailable);
+
             if (showTableGrid.Items.Count > 0)
             {
                 lbl_payment.Content = payment.ToString() + " NIS";
@@ -285,5 +264,7 @@ namespace Restaurant_reservation_project
             showTableGrid.Items.Clear();
             lbl_payment.Content = "";
         }
+
+
     }
 }

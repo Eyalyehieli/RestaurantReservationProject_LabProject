@@ -50,12 +50,13 @@ namespace Restaurant_reservation_project
                 {
                     workers_combo_box.Items.Add(worker_name);
                 }
-                Thread.Sleep(100);
+                Thread.Sleep(100);//wait for ther server to send the worker,for synchronized
             }
             while (stream.DataAvailable);
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //open new reservarion in this.table_number
             NetWorking.SendRequest(stream, NetWorking.Requestes.UPSERT_RESERVATION);
             NetWorking.sentStringOverNetStream(stream, selected_worker);
             NetWorking.sentIntOverNetStream(stream, this.table_number);

@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBlock x:Name="messages_txb" HorizontalAlignment="Left" Margin="33,58,0,0" TextWrapping="Wrap" Text="{Binding Path=messagesText}" VerticalAlignment="Top" Height="353" Width="252"/>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="478,186,0,0" VerticalAlignment="Top" Width="75" Height="41" Click="Button_Click"/>
-        <Label Content="Messages" HorizontalAlignment="Left" Margin="33,10,0,0" VerticalAlignment="Top" Width="88"/>
+        <TextBlock x:Name="messages_txb" HorizontalAlignment="Left" Margin="33,157,0,0" TextWrapping="Wrap" Text="{Binding Path=messagesText}" VerticalAlignment="Top" Height="254" Width="750"  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+         ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        <Button Content="Start" HorizontalAlignment="Left" Margin="357,61,0,0" VerticalAlignment="Top" Width="75" Height="41" Click="Button_Click"/>
+        <Label Content="Messages:" HorizontalAlignment="Left" Margin="33,126,0,0" VerticalAlignment="Top" Width="88"/>
     </Grid>
 </Window>

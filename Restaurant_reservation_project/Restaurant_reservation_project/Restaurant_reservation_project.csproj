@@ -104,9 +104,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ChangeManagerPassword.xaml.cs">
-      <DependentUpon>ChangeManagerPassword.xaml</DependentUpon>
-    </Compile>
     <Compile Include="dishes.cs" />
     <Compile Include="DishesCrud.xaml.cs">
       <DependentUpon>DishesCrud.xaml</DependentUpon>
@@ -116,17 +113,10 @@
       <DependentUpon>ManangerCode.xaml</DependentUpon>
     </Compile>
     <Compile Include="NetWorking.cs" />
-    <Compile Include="Orders.cs" />
     <Compile Include="Recepit.xaml.cs">
       <DependentUpon>Recepit.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reservation.cs" />
-    <Compile Include="settings.xaml.cs">
-      <DependentUpon>settings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ShowTableReservation.xaml.cs">
-      <DependentUpon>ShowTableReservation.xaml</DependentUpon>
-    </Compile>
     <Compile Include="tableReservation.xaml.cs">
       <DependentUpon>tableReservation.xaml</DependentUpon>
     </Compile>
@@ -134,10 +124,6 @@
     <Compile Include="WorkersCrud.xaml.cs">
       <DependentUpon>WorkersCrud.xaml</DependentUpon>
     </Compile>
-    <Page Include="ChangeManagerPassword.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="DishesCrud.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -166,14 +152,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Recepit.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="settings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ShowTableReservation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

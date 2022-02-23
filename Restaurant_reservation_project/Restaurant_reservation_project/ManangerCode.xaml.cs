@@ -25,6 +25,7 @@ namespace Restaurant_reservation_project
         const int PASSWORD_LENGTH = 4;
         const int ENTER_KEY= 10;
         const int DELETE_KEY = 127;
+        public const int CHANGE_PASSWORD = 2;
         int passwordIndex = 0;
         int type;
         NetworkStream streamer;
@@ -63,7 +64,7 @@ namespace Restaurant_reservation_project
         }
         private void DecPasswordIndex()
         {
-            if(passwordIndex>0)
+            if (passwordIndex > 0)
             {
                 passwordIndex--;
             }
@@ -71,7 +72,6 @@ namespace Restaurant_reservation_project
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bool isPassCorrect;
             Button b = sender as Button;
 
             if (b.Content.Equals("Del"))
@@ -81,44 +81,65 @@ namespace Restaurant_reservation_project
             }
             else if (b.Content.Equals("Enter"))
             {
-                if (this.type == tableReservation.GET_MUTEX || this.type == tableReservation.GET_ACCESS)
-                {
-                    isPassCorrect = true;
-                    for (int i = 0; i < PASSWORD_LENGTH; i++)
-                    {
-                        if (password[i] != correctPassword[i])
-                        {
-                            MessageBox.Show("Incorrect password");
-                            isPassCorrect = false;
-                            break;
-                        }
-                    }
-                    if (isPassCorrect)
-                    {
-                        switch (this.type)
-                        {
-                            case tableReservation.GET_MUTEX: getMutex(); break;
-                            case tableReservation.GET_ACCESS: getAccess(); break;
-                        }
-                    }
-                }
-                else if (this.type == settings.CHANGE_PASSWORD)
-                {
-                    ChangeManagerPassword();
-                }
-
+                EnterPressedCheckWhichTypeOfWindow();
             }
-            else
+            else//digit button pressed
             {
-                IncPasswordIndex();
-                password[passwordIndex-1] = Convert.ToChar(b.Content);
-                for(int i=0;i<passwordIndex;i++)
-                {
-                    printPassword();
-                }
+                PrintPasswordDigit(b);
             }
         }
 
+        public void EnterPressedCheckWhichTypeOfWindow()
+        {
+            bool isPassCorrect;
+            if (isGetToAccessManager())
+            {
+                isPassCorrect = isCorrectPassword();
+
+                if (isPassCorrect)
+                {
+                    //do method if password is correct 
+                    switch (this.type)
+                    {
+                        case tableReservation.GET_MUTEX: getMutex(); break;
+                        case tableReservation.GET_ACCESS: getAccess(); break;
+                    }
+                }
+            }
+            else if (isToChangePassword())
+            {
+                ChangeManagerPassword();
+            }
+        }
+        public bool isToChangePassword()
+        {
+            return this.type == ManangerCode.CHANGE_PASSWORD;
+        }
+        public bool isCorrectPassword()
+        {
+            for (int i = 0; i < PASSWORD_LENGTH; i++)
+            {
+                if (password[i] != correctPassword[i])
+                {
+                    MessageBox.Show("Incorrect password");
+                    return false;
+                }
+            }
+            return true;
+        }
+        public bool isGetToAccessManager()
+        {
+            return this.type == tableReservation.GET_MUTEX || this.type == tableReservation.GET_ACCESS;
+        }
+        public void PrintPasswordDigit(Button b)
+        {
+            IncPasswordIndex();
+            password[passwordIndex - 1] = Convert.ToChar(b.Content);
+            for (int i = 0; i < passwordIndex; i++)
+            {
+                printPassword();
+            }
+        }
         private void ChangeManagerPassword()
         {
             NetWorking.SendRequest(streamer, NetWorking.Requestes.CHANGE_MANAGER_CODE);
