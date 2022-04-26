@@ -40,17 +40,17 @@ namespace Restaurant_reservation_project
         public void loadWorkersToComboBox()
         {
             string worker_name;
-            String priority;
+            String job;
             NetWorking.SendRequest(stream, NetWorking.Requestes.GET_ALL_WORKERS);
             do
             {
                 worker_name = NetWorking.getStringOverNetStream(stream);
-                priority = NetWorking.getStringOverNetStream(stream);
-                if (priority.Equals("Waiter") || priority.Equals("Owner") || priority.Equals("Manager"))
+                job = NetWorking.getStringOverNetStream(stream);
+                if (job.Equals("Waiter") || job.Equals("Owner") || job.Equals("Manager"))
                 {
                     workers_combo_box.Items.Add(worker_name);
                 }
-                Thread.Sleep(100);//wait for ther server to send the worker,for synchronized
+                Thread.Sleep(20);//wait for ther server to send the worker,for synchronized
             }
             while (stream.DataAvailable);
         }

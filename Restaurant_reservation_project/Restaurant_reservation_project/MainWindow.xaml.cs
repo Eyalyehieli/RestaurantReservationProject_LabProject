@@ -32,26 +32,24 @@ namespace Restaurant_reservation_project
         int[] isTableCreatedCounter = new int[NUMBER_OF_TABLES + 1];//put it in the server
         tableReservation[] tbl_reservations = new tableReservation[NUMBER_OF_TABLES + 1];
         List<Button> listButtons = new List<Button>();
-        Mutex mouseEnterMutex;
+        Semaphore mouseEnterMutex;
         public MainWindow()
         {
             InitializeComponent();
             GetLogicalChildCollection(this, listButtons);
             showIternalTables();
-            create_data_grid_columns(showTableGrid);
             socketOutput.Connect(IPAddress.Parse("127.0.0.1"), 8000);
             socketInput.Connect(IPAddress.Parse("127.0.0.1"), 8001);
-            MessageBox.Show("connected");
-            mouseEnterMutex = new Mutex();
+            mouseEnterMutex = new Semaphore(1,1);
         }
 
         public bool isTableButton(Button b)
         {
-            return (b.Content.ToString() != "Settings" && b.Content.ToString() != "change to external tables" && b.Content.ToString() != "change to iternal tables");
+            return (b.Content.ToString() != "Settings" && b.Content.ToString() != "Change To External Tables" && b.Content.ToString() != "Change To Iternal Tables");
         }
         private void showIternalTables()
         {
-            switcher.Content = "change to external tables";
+            switcher.Content = "Change To External Tables";
             foreach (Button b in listButtons)
             {
                 if (isTableButton(b))
@@ -70,7 +68,7 @@ namespace Restaurant_reservation_project
 
         private void showExternalTables()
         {
-            switcher.Content = "change to iternal tables";
+            switcher.Content = "Change To Iternal Tables";
             foreach (Button b in listButtons)
             {
                 if (isTableButton(b))
@@ -117,7 +115,7 @@ namespace Restaurant_reservation_project
         private void switcher_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
-            if(b.Content.ToString()== "change to external tables")
+            if(b.Content.ToString()== "Change To External Tables")
             {
                 showExternalTables();
             }
@@ -133,7 +131,7 @@ namespace Restaurant_reservation_project
             bool status = NetWorking.getBoolOverNetStream(stream);
             if (status == false)
             {
-                MessageBox.Show("Another Manager is changing the code, please check");
+                MessageBox.Show("Another Manager Is Changing The Code, Please Check","Manager Warning",MessageBoxButton.OK,MessageBoxImage.Stop);
             }
             else
             {
@@ -155,7 +153,7 @@ namespace Restaurant_reservation_project
             bool status = NetWorking.getBoolOverNetStream(stream);
             if (status == false)
             {
-                MessageBox.Show("Another Manager is in Workers CRUD ,please check");
+                MessageBox.Show("Another Manager Is In Workers CRUD ,Please Check","Manager Warning",MessageBoxButton.OK,MessageBoxImage.Stop);
             }
             else
             {
@@ -177,7 +175,7 @@ namespace Restaurant_reservation_project
             bool status = NetWorking.getBoolOverNetStream(stream);
             if (status == false)
             {
-                MessageBox.Show("Another Manager is in Dishes CRUD ,please check");
+                MessageBox.Show("Another Manager Is In Dishes CRUD, Please Check","Manager Warning",MessageBoxButton.OK,MessageBoxImage.Stop);
             }
             else
             {
@@ -191,27 +189,6 @@ namespace Restaurant_reservation_project
                 NetWorking.SendRequest(stream, NetWorking.Requestes.RELEASE_DISHES_CRUD_MUTEX);
             }
         }
-
-        private void create_data_grid_columns(DataGrid dataGrid)
-        {
-            DataGridTextColumn col1 = new DataGridTextColumn();
-            DataGridTextColumn col2 = new DataGridTextColumn();
-            DataGridTextColumn col3 = new DataGridTextColumn();
-            DataGridTextColumn col4 = new DataGridTextColumn();
-            dataGrid.Columns.Add(col1);
-            dataGrid.Columns.Add(col2);
-            dataGrid.Columns.Add(col3);
-            dataGrid.Columns.Add(col4);
-            col1.Binding = new Binding("name");
-            col2.Binding = new Binding("price");
-            col3.Binding = new Binding("category");
-            col4.Binding = new Binding("amount");
-            col1.Header = "name";
-            col2.Header = "price";
-            col3.Header = "category";
-            col4.Header = "amount";
-        }
-
 
         private void table1_btn_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -228,7 +205,7 @@ namespace Restaurant_reservation_project
             int payment = 0;
             int table_number = Convert.ToInt32(((Button)sender).Content);
             NetworkStream stream = socketOutput.GetStream();
-            string dish_string;
+            string dish_string,worker_name;
             string[] seperated_dish;
             dishOfReservation dishOfReservation;
             NetWorking.SendRequest(stream, NetWorking.Requestes.GET_RESERVATION);
@@ -246,25 +223,45 @@ namespace Restaurant_reservation_project
                     payment += dishOfReservation.price*dishOfReservation.amount;
                     showTableGrid.Items.Add(dishOfReservation);
                 }
+                Thread.Sleep(15);//wait for the data come to the stream//the situation can be there is data but the stream.DataAvailable 
+                                 //is false because the data haven't arrived yet
             } while (stream.DataAvailable);
 
             if (showTableGrid.Items.Count > 0)
             {
-                lbl_payment.Content = payment.ToString() + " NIS";
+                NetWorking.SendRequest(stream, NetWorking.Requestes.GET_WORKER_OF_RESERVATION);
+                NetWorking.sentIntOverNetStream(stream, table_number);
+                NetWorking.sentBoolOverNetStream(stream, false);
+                worker_name = NetWorking.getStringOverNetStream(stream);
+                lbl_payment.Content = payment.ToString() + " NIS " + ", " + worker_name;
             }
             else
             {
-                lbl_payment.Content = "There Is No Open Reservation In This Table";
+                lbl_payment.Content = "There Is No Open Reservation!";
             }
-            mouseEnterMutex.ReleaseMutex();
         }
 
         private void table1_btn_MouseLeave(object sender, MouseEventArgs e)
         {
             showTableGrid.Items.Clear();
             lbl_payment.Content = "";
+            mouseEnterMutex.Release();
         }
 
+        private void MenuItem_Click_openReservations(object sender, RoutedEventArgs e)
+        {
+            ShowReservations showReservations = new ShowReservations(socketOutput.GetStream(), "open");
+            this.Hide();
+            showReservations.ShowDialog();
+            this.Show();
+        }
 
+        private void MenuItem_Click_closedReservations(object sender, RoutedEventArgs e)
+        {
+            ShowReservations showReservations = new ShowReservations(socketOutput.GetStream(), "closed");
+            this.Hide();
+            showReservations.ShowDialog();
+            this.Show();
+        }
     }
 }

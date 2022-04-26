@@ -5,22 +5,264 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Restaurant_reservation_project"
         mc:Ignorable="d"
-        Title="tableReservation" Height="450" Width="800">
-    <Grid Margin="0,3,0.333,-3.333">
-        <Label x:Name="table_num_lbl" Content="" HorizontalAlignment="Left" Margin="261,18,0,0" VerticalAlignment="Top" Width="224" MouseDoubleClick="table_num_lbl_MouseDoubleClick"/>
-        <Button Content="Bill" HorizontalAlignment="Left" Margin="686,98,0,0" VerticalAlignment="Top" Width="107" Height="41" Click="Button_Click_2"/>
-        <Label x:Name="worker_lbl" Content="worker: " HorizontalAlignment="Left" Margin="540,18,0,0" VerticalAlignment="Top" Width="148" MouseDoubleClick="worker_lbl_MouseLeftButtonDown"/>
-        <DataGrid x:Name="reservation_data_grid" HorizontalAlignment="Left" Height="214" Margin="540,150,0,0" VerticalAlignment="Top" Width="253"/>
-        <Button Content="deserts" HorizontalAlignment="Left" Margin="75,41,0,0" VerticalAlignment="Top" Width="75" Height="41" Click="Button_Click"/>
-        <Button Content="firsts" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.098,0.45" Height="41" Click="Button_Click"/>
-        <Button Content="drinks" HorizontalAlignment="Left" Margin="75,0,0,0" VerticalAlignment="Top" Width="75" Height="41" Click="Button_Click"/>
-        <Button Content="main-dishes" HorizontalAlignment="Left" Margin="0,41,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.577,0.62" Height="41" Click="Button_Click"/>
-        <DataGrid x:Name="dishes_by_category_data_grid" HorizontalAlignment="Left" Height="214" Margin="0,148,0,0" VerticalAlignment="Top" Width="308" SelectionChanged="dishes_by_category_data_grid_SelectionChanged"/>
-        <TextBox x:Name="amountOfDishTxb" HorizontalAlignment="Left" Height="23" Margin="392,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="amountOfDishLbl" Content="amount:" HorizontalAlignment="Left" Margin="333,203,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.539,0.417"/>
-        <Button x:Name="amountOfDishBtn" HorizontalAlignment="Left" Margin="333,256,0,0" VerticalAlignment="Top" Width="199" Height="21" Click="amountOfDishBtn_Click" IsDefault="True"/>
-        <Button Content="Print" HorizontalAlignment="Left" Margin="540,98,0,0" VerticalAlignment="Top" Width="107" Height="41" Click="Button_Click_1"/>
-        <ComboBox Name="change_worker_comboBox" HorizontalAlignment="Left" Margin="585,20,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="change_worker_comboBox_SelectionChanged"/>
-        <ComboBox  Name="change_tableNumber_comboBox" HorizontalAlignment="Left" Margin="340,22,0,0" VerticalAlignment="Top" Width="26" SelectionChanged="change_tableNumber_comboBox_SelectionChanged"/>
+        Title="tableReservation" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="#181735">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="C:\Eyal Yehieli\Restaurant_reservation_project\Images\backgroundEyal.jpg"/>
+        </Grid.Background>
+        <Label x:Name="table_num_lbl" Background="#181735" BorderBrush="White" FontFamily="Aharoni Bold" FontSize="14" Foreground="White" Content="" HorizontalAlignment="Left" Margin="297,18,0,0" VerticalAlignment="Top" Width="208" MouseDoubleClick="table_num_lbl_MouseDoubleClick">
+            <Label.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="12"/>
+                </Style>
+            </Label.Resources>
+        </Label>
+        <Button Content="Bill" HorizontalAlignment="Left" Margin="686,98,0,0" VerticalAlignment="Top" Width="107" Height="41" Click="Button_Click_2">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DarkGreen"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="DarkCyan"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="107" Height="41" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Label x:Name="worker_lbl" Content="Worker: " Background="#181735" BorderBrush="White" FontFamily="Aharoni Bold" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="592,18,0,0" VerticalAlignment="Top" Width="165" MouseDoubleClick="worker_lbl_MouseLeftButtonDown">
+            <Label.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="12"/>
+                </Style>
+            </Label.Resources>
+        </Label>
+        <DataGrid x:Name="reservation_data_grid" CanUserSortColumns="False" HorizontalAlignment="Left" Height="274" Margin="520,150,0,0" VerticalAlignment="Top" SelectionChanged="reservation_data_grid_SelectionChanged" BorderBrush="Gray" BorderThickness="4,4,4,4" Width="275">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Width="95" Binding="{Binding name}"/>
+                <DataGridTextColumn Header="Price" Width="55" Binding="{Binding price}"/>
+                <DataGridTextColumn Header="Category" Width="55" Binding="{Binding category}"/>
+                <DataGridTextColumn Header="Amount" Width="55" Binding="{Binding amount}"/>
+            </DataGrid.Columns>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="Gray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="FontSize" Value="10"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="BorderThickness" Value="1.6,0,0,0"/>
+                    <Setter Property="Height" Value="25"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Background" Value="Gray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="FontSize" Value="10"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Foreground" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
+        <Button Content="Deserts" HorizontalAlignment="Left" Margin="75,41,0,0" VerticalAlignment="Top" Width="75" Height="41" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="15"/>
+                    <Setter Property="Background" Value="#181735"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="DarkCyan"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="75" Height="41" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="Firsts" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.098,0.45" Height="41" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="15"/>
+                    <Setter Property="Background" Value="#181735"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="DarkCyan"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="75" Height="41" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="Drinks" HorizontalAlignment="Left" Margin="75,0,0,0" VerticalAlignment="Top" Width="75" Height="41" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="15"/>
+                    <Setter Property="Background" Value="#181735"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="DarkCyan"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="75" Height="41" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="Main-Dishes" HorizontalAlignment="Left" Margin="0,41,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.577,0.62" Height="41" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="11"/>
+                    <Setter Property="Background" Value="#181735"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="DarkCyan"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="75" Height="41" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <DataGrid  x:Name="dishes_by_category_data_grid" HorizontalAlignment="Left" Height="274" Margin="0,148,0,0" VerticalAlignment="Top" Width="287" SelectionChanged="dishes_by_category_data_grid_SelectionChanged" BorderBrush="#181735" BorderThickness="4,4,4,4">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Width="120" Binding="{Binding name}"/>
+                <DataGridTextColumn Header="Price" Width="55" Binding="{Binding price}"/>
+                <DataGridTextColumn Header="Category" Width="120" Binding="{Binding category}"/>
+            </DataGrid.Columns>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#181735"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="FontSize" Value="10"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="BorderThickness" Value="1.6,0,0,0"/>
+                    <Setter Property="Height" Value="25"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Background" Value="#181735"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="FontSize" Value="10"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Foreground" Value="Gray"/>
+                        </Trigger>
+
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
+        <TextBox x:Name="amountOfDishTxb" FontFamily="Aharoni Bold" FontSize="14" Foreground="White" HorizontalAlignment="Left" Height="23" Margin="386,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#181735" BorderBrush="White">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="12"/>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <Label x:Name="amountOfDishLbl"  Background="#181735" BorderBrush="White" BorderThickness="1,1,1,1" FontFamily="Aharoni Bold" FontSize="14" Foreground="White" Content="Amount:" HorizontalAlignment="Left" Margin="313,205,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.539,0.417">
+            <Label.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="12"/>
+                </Style>
+            </Label.Resources>
+        </Label>
+        <Button x:Name="amountOfDishBtn" HorizontalAlignment="Left" Margin="307,256,0,0" VerticalAlignment="Top" Width="199" Height="21" Click="amountOfDishBtn_Click" IsDefault="True">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="#181735"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="DarkCyan"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="199" Height="21" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="Print" HorizontalAlignment="Left" Margin="540,98,0,0" VerticalAlignment="Top" Width="107" Height="41" Click="Button_Click_1">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="Brown"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="DarkCyan"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="107" Height="41" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <ComboBox Name="change_worker_comboBox" FontFamily="Aharoni Bold" FontSize="15" Foreground="#181735" IsEditable="True" IsReadOnly="True" Text="--Choose Worker--" HorizontalAlignment="Left" Margin="597,20,0,0" VerticalAlignment="Top" Width="156" SelectionChanged="change_worker_comboBox_SelectionChanged"/>
+        <ComboBox Name="change_tableNumber_comboBox" FontFamily="Aharoni Bold" FontSize="15" Foreground="#181735" IsEditable="True" IsReadOnly="True" Text="--Choose Table--" HorizontalAlignment="Left" Margin="326,22,0,0" VerticalAlignment="Top" Width="139" SelectionChanged="change_tableNumber_comboBox_SelectionChanged"/>
     </Grid>
 </Window>

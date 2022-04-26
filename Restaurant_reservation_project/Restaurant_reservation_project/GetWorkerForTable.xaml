@@ -5,10 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Restaurant_reservation_project"
         mc:Ignorable="d"
-        Title="GetWorkerForTable" Height="450" Width="800">
+        Title="GetWorkerForTable" Height="450" Width="490" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="#FF0F4E7A">
     <Grid>
-        <ComboBox x:Name="workers_combo_box" HorizontalAlignment="Left" Margin="326,88,0,0" VerticalAlignment="Top" Width="120" Height="25" SelectionChanged="workers_combo_box_SelectionChanged"/>
-        <Button Content="Continue" HorizontalAlignment="Left" Margin="648,320,0,0" VerticalAlignment="Top" Width="95" Height="31" Click="Button_Click"/>
+        <Grid.Background>
+            <ImageBrush ImageSource = "C:\Eyal Yehieli\Restaurant_reservation_project\Images\goodfood.jpg"/>
+        </Grid.Background>
+        <ComboBox x:Name="workers_combo_box" FontFamily="Aharoni Bold" FontSize="15" Foreground="#181735" IsDropDownOpen="True" IsEditable="True" IsReadOnly="True" Text="---Choose Worker---" HorizontalAlignment="Left" Margin="76,198,0,0" VerticalAlignment="Top" Width="206" Height="39" SelectionChanged="workers_combo_box_SelectionChanged"/>
+        <Button Content="Continue" HorizontalAlignment="Left" Margin="314,367,0,0" VerticalAlignment="Top" Width="150" Height="47" Click="Button_Click" IsDefault="True">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="#181735"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF2DC1D5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="150" Height="47" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Label Content="Workers:" HorizontalAlignment="Left" Margin="109,88,0,0" VerticalAlignment="Top" Height="60" Width="150">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF2DC1D5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+            <Label.Template>
+                <ControlTemplate TargetType="Label">
+                    <Border Width="150" Height="50" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Label.Template>
+        </Label>
 
     </Grid>
 </Window>

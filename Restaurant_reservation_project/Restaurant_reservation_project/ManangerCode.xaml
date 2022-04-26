@@ -5,22 +5,339 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Restaurant_reservation_project"
         mc:Ignorable="d"
-        Title="ManangerCode" Height="450" Width="800">
-    <Grid>
-        <Button Content="1" HorizontalAlignment="Left" Margin="270,125,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click"/>
-        <Button Content="3" HorizontalAlignment="Left" Margin="437,125,0,0" VerticalAlignment="Top" Width="84" RenderTransformOrigin="0.545,0.562" Height="54" Click="Button_Click"/>
-        <Button Content="2" HorizontalAlignment="Left" Margin="354,125,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click"/>
-        <Button Content="9" HorizontalAlignment="Left" Margin="437,222,0,0" VerticalAlignment="Top" Width="84" Height="65" Click="Button_Click"/>
-        <Button Content="8" HorizontalAlignment="Left" Margin="354,222,0,0" VerticalAlignment="Top" Width="84" Height="65" Click="Button_Click"/>
-        <Button Content="7" HorizontalAlignment="Left" Margin="270,222,0,0" VerticalAlignment="Top" Width="84" Height="65" Click="Button_Click"/>
-        <Button Content="6" HorizontalAlignment="Left" Margin="437,179,0,0" VerticalAlignment="Top" Width="84" Height="54" RenderTransformOrigin="0.591,0.476" Click="Button_Click"/>
-        <Button Content="5" HorizontalAlignment="Left" Margin="353,179,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click"/>
-        <Button Content="4" HorizontalAlignment="Left" Margin="270,179,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click"/>
-        <Button Content="0" HorizontalAlignment="Left" Margin="353,287,0,0" VerticalAlignment="Top" Width="85" Height="41" Click="Button_Click"/>
-        <Button Content="Del" HorizontalAlignment="Left" Margin="437,287,0,0" VerticalAlignment="Top" Width="84" Height="41" Click="Button_Click"/>
-        <Label Content="Enter Code:" HorizontalAlignment="Left" Margin="270,67,0,0" VerticalAlignment="Top"/>
-        <Label Name="password_lbl"  Content="" HorizontalAlignment="Left" Margin="353,67,0,0" VerticalAlignment="Top" Width="168"/>
-        <Button Name="Continue" Content="Enter" HorizontalAlignment="Left" Margin="270,286,0,0" VerticalAlignment="Top" Width="84" Height="41" Click="Button_Click"/>
+        Title="ManangerCode" Height="364" Width="296" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+    <Grid Background="#181735">
+        <Button Content="1" HorizontalAlignment="Left" Margin="28,93,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="54" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <Button Content="3" HorizontalAlignment="Left" Margin="195,95,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="54" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="2" HorizontalAlignment="Left" Margin="112,95,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="54" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="9" HorizontalAlignment="Left" Margin="195,197,0,0" VerticalAlignment="Top" Width="84" Height="56" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="54" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="8" HorizontalAlignment="Left" Margin="112,197,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="54" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="7" HorizontalAlignment="Left" Margin="28,199,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="54" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="6" HorizontalAlignment="Left" Margin="195,147,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="54" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="5" HorizontalAlignment="Left" Margin="111,147,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="54" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="4" HorizontalAlignment="Left" Margin="28,147,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="54" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="0" HorizontalAlignment="Left" Margin="111,251,0,0" VerticalAlignment="Top" Width="85" Height="41" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DimGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="85" Height="41" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="Del" HorizontalAlignment="Left" Margin="195,253,0,0" VerticalAlignment="Top" Width="84" Height="41" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="41" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Label Content="Enter Code:" HorizontalAlignment="Left" Margin="28,37,0,0" VerticalAlignment="Top" Width="88" Height="51">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="15"/>
+                    <Setter Property="Background" Value="#181735"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF2DC1D5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+            <Label.Template>
+                <ControlTemplate TargetType="Label">
+                    <Border Width="88" Height="55" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Label.Template>
+        </Label>
+        <Label Name="password_lbl"  Content="" HorizontalAlignment="Left" Margin="136,50,0,0" VerticalAlignment="Top" Width="143" Height="25">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="20"/>
+                    <Setter Property="Background" Value="#181735"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF2DC1D5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+            <Label.Template>
+                <ControlTemplate TargetType="Label">
+                    <Border Width="143" Height="25" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    </Border>
+                </ControlTemplate>
+            </Label.Template>
+        </Label>
+        <Button Name="Continue" Content="Enter" HorizontalAlignment="Left" Margin="26,252,0,0" VerticalAlignment="Top" Width="84" Height="41" Click="Button_Click" IsDefault="True">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="DarkGreen"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#181735"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="41" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="Back" HorizontalAlignment="Left" Margin="111,293,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click_1">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
+                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="Background" Value="#181735"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF2DC1D5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="84" Height="54" CornerRadius="12" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
 
     </Grid>
 </Window>

@@ -5,11 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Server_project"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <TextBlock x:Name="messages_txb" HorizontalAlignment="Left" Margin="33,157,0,0" TextWrapping="Wrap" Text="{Binding Path=messagesText}" VerticalAlignment="Top" Height="254" Width="750"  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-         ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="357,61,0,0" VerticalAlignment="Top" Width="75" Height="41" Click="Button_Click"/>
-        <Label Content="Messages:" HorizontalAlignment="Left" Margin="33,126,0,0" VerticalAlignment="Top" Width="88"/>
+        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="#181735" >
+    <Grid >
+        <Grid.Background>
+            <ImageBrush ImageSource="C:\Eyal Yehieli\Restaurant_reservation_project\Images\goodfood.jpg"/>
+        </Grid.Background>
+        <ScrollViewer Margin="0,157,0.333,-0.333">
+            <TextBlock x:Name="messages_txb" FontFamily="Aharoni Bold" FontSize="10" Foreground="White" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="{Binding Path= messagesText}" VerticalAlignment="Stretch">
+            <TextBlock.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="12"/>
+                </Style>
+            </TextBlock.Resources>
+            </TextBlock>
+        </ScrollViewer>
+        <Button Name="start_btn"  Content="Start"  Background="#185778" BorderBrush="White" FontFamily="Aharoni Bold" FontSize="14" Foreground="White" BorderThickness="1,1,1,1" HorizontalAlignment="Left" Margin="351,37,0,0" VerticalAlignment="Top" Width="75" Height="41" Click="Button_Click" IsDefault="True">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="12"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Label Name="messages_lbl"  Background="Gray" BorderThickness="3,3,3,3" BorderBrush="White" FontFamily="Aharoni Bold" FontSize="14" Foreground="White" Content="Messages:" HorizontalAlignment="Left" Margin="33,126,0,0" VerticalAlignment="Top" Width="88">
+            <Label.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="12"/>
+                </Style>
+            </Label.Resources>
+        </Label>
+        <Label Name="number_of_clients_lbl" Background="#185778" BorderBrush="White" FontFamily="Aharoni Bold" FontSize="14" Foreground="White" Content="Enter Number of Clients:" HorizontalAlignment="Left" Margin="204,102,0,0" VerticalAlignment="Top" Width="173" BorderThickness="2,2,2,2">
+            <Label.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="12"/>
+                </Style>
+            </Label.Resources>
+        </Label>
+        <TextBox Name="number_of_clients_txb" Background="#185778" BorderBrush="White" BorderThickness="2,2,2,2" FontFamily="Aharoni Bold" FontSize="14" Foreground="White" HorizontalAlignment="Left" Height="26" Margin="382,102,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="12"/>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
     </Grid>
 </Window>

@@ -64,7 +64,7 @@ namespace Server_project
             InsertListOfRecords("dishes", dishes);
         }
         
-        public void InsertRecord<T>(string table,T record)
+        public  void InsertRecord<T>(string table,T record)
         {
             var collection = database.GetCollection<T>(table);
             collection.InsertOne(record);
@@ -294,6 +294,19 @@ namespace Server_project
                     yield return res;
                 }
             }
+        }
+        public List<Reservation> getOpenReservation()
+        {
+           return LoadRecords<Reservation>("reservation").FindAll(x => x.isFinished == false);
+        }
+        public List<Reservation> getClosedReservation()
+        {
+            return LoadRecords<Reservation>("reservation").FindAll(x => x.isFinished == true &&isToday(x.dateTime));
+        }
+
+        public bool isToday(DateTime day)
+        {
+            return day.Day == DateTime.Now.Day && day.Month == DateTime.Now.Month && day.Year == DateTime.Now.Year;
         }
     }
 }

@@ -5,41 +5,12 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server_project
+namespace Restaurant_reservation_project
 {
     class NetWorking
     {
-        public enum Requestes { GET_RESERVATION, ADD_DISH, GET_ALL_WORKERS,GET_DISHES_BY_CATEGORY, GET_WORKER_OF_RESERVATION,INSERT_RESERVAION,UPDATE_RESERVAION,TERMINATE_RESERVATION, UPSERT_RESERVATION, WAIT_ONE_MUTEX,RELEASE_MUTEX, WAIT_ONE_MUTEX_MANAGER,GET_MUTEX_STATE,IS_OCCUPEID_TABLE,WAIT_ONE_TABLE,RELEASE_TABLE,GET_MANAGER_CODE,CHANGE_MANAGER_CODE,WAIT_ONE_MANAGER_CODE, RELEASE_MANAGER_CODE_MUTEX,WAIT_ONE_WORKERS_CRUD,RELEASE_WORKERS_CRUD_MUTEX, WAIT_ONE_DISHES_CRUD, RELEASE_DISHES_CRUD_MUTEX, DELETE_WORKER,DELETE_DISH,UPDATE_WORKER,INSERT_WORKER,UPDATE_DISH,INSERT_DISH,UPDATE_WORKER_OF_RESERVATION,UPDATE_TABLE_NUMBER_OF_RESERVATION,GET_OCCUPIED_TABLES};
+        public enum Requestes { GET_RESERVATION, ADD_DISH, GET_ALL_WORKERS, GET_DISHES_BY_CATEGORY, GET_WORKER_OF_RESERVATION, INSERT_RESERVAION, UPDATE_RESERVAION, TERMINATE_RESERVATION, UPSERT_RESERVATION, WAIT_ONE_MUTEX, RELEASE_MUTEX, WAIT_ONE_MUTEX_MANAGER, GET_MUTEX_STATE, IS_OCCUPEID_TABLE, WAIT_ONE_TABLE, RELEASE_TABLE, GET_MANAGER_CODE, CHANGE_MANAGER_CODE, WAIT_ONE_MANAGER_CODE, RELEASE_MANAGER_CODE_MUTEX, WAIT_ONE_WORKERS_CRUD, RELEASE_WORKERS_CRUD_MUTEX, WAIT_ONE_DISHES_CRUD, RELEASE_DISHES_CRUD_MUTEX, DELETE_WORKER, DELETE_DISH, UPDATE_WORKER, INSERT_WORKER, UPDATE_DISH, INSERT_DISH, UPDATE_WORKER_OF_RESERVATION, UPDATE_TABLE_NUMBER_OF_RESERVATION, GET_OCCUPIED_TABLES, GET_OPEN_RESERVATION, GET_CLOSED_RESERVATION };
         //const int SIZE_PARAMETERS = 2;
-
-        public static void sentBoolOverNetStream(NetworkStream stream,bool flag)
-        {
-            byte[] buffer = BitConverter.GetBytes(flag);
-            stream.Write(buffer, 0, buffer.Length);
-        }
-
-        public static bool getBoolOverNetStream(NetworkStream stream)
-        {
-            byte[] buffer = new byte[sizeof(bool)];
-            bool flag;
-            stream.Read(buffer, 0, buffer.Length);
-            flag = BitConverter.ToBoolean(buffer,0);
-            return flag;
-        }
-
-        public static void sentIntOverNetStream(NetworkStream stream, int number)
-        {
-            byte[] buffer = BitConverter.GetBytes(number);//size of integer
-            stream.Write(buffer, 0, buffer.Length);
-        }
-        public static int getIntOverNetStream(NetworkStream stream)
-        {
-            byte[] buffer = new byte[sizeof(int)];//size of integer
-            int number = 0;
-            stream.Read(buffer, 0, buffer.Length);
-            number = BitConverter.ToInt32(buffer, 0);
-            return number;
-        }
         public static string getStringOverNetStream(NetworkStream stream)
         {
             byte[] size_buffer = new byte[sizeof(int)];//size of integer
@@ -51,6 +22,34 @@ namespace Server_project
             stream.Read(string_buffer, 0, string_buffer.Length);
             return Encoding.UTF8.GetString(string_buffer);
         }
+
+        public static void sentBoolOverNetStream(NetworkStream stream, bool flag)
+        {
+            byte[] buffer = BitConverter.GetBytes(flag);
+            stream.Write(buffer, 0, buffer.Length);
+        }
+
+        public static bool getBoolOverNetStream(NetworkStream stream)
+        {
+            byte[] buffer = new byte[sizeof(bool)];
+            bool flag;
+            stream.Read(buffer, 0, buffer.Length);
+            flag = BitConverter.ToBoolean(buffer, 0);
+            return flag;
+        }
+        public static void sentIntOverNetStream(NetworkStream stream, int number)
+        {
+            byte[] buffer = BitConverter.GetBytes(number);//size of integer
+            stream.Write(buffer, 0, buffer.Length);
+        }
+        public static int getIntOverNetStream(NetworkStream stream)
+        {
+            byte[] buffer = new byte[4];//size of integer
+            int number = 0;
+            stream.Read(buffer, 0, buffer.Length);
+            number = BitConverter.ToInt32(buffer, 0);
+            return number;
+        }
         public static void sentStringOverNetStream(NetworkStream stream, string str)
         {
             byte[] buffer = BitConverter.GetBytes(str.Length);//always the size of the array will be 4
@@ -60,19 +59,24 @@ namespace Server_project
         }
         public static void SendRequest(NetworkStream stream, Requestes request)
         {
-            byte[] request_buffer = new byte[sizeof(NetWorking.Requestes)];
+            byte[] request_buffer = new byte[sizeof(NetWorking.Requestes)];//sizeof=32 bit//request
             request_buffer = BitConverter.GetBytes(Convert.ToInt32(request));
             stream.Write(request_buffer, 0, request_buffer.Length);
         }
-        
         public static byte[] GetRequest(NetworkStream stream)
         {
+            /*int bytesRead = 0;
+            byte[] request_buffer = new byte[sizeof(NetWorking.Requestes)];
+            while (bytesRead < 1)
+            {
+                bytesRead += stream.Read(request_buffer, bytesRead, 1 - bytesRead);
+            }*/
             byte[] request_buffer = new byte[sizeof(NetWorking.Requestes)];
             stream.Read(request_buffer, 0, request_buffer.Length);
             return request_buffer;
         }
 
-        public static void sendDateTimeOverNetStream(NetworkStream stream,DateTime dateTime)
+        public static void sendDateTimeOverNetStream(NetworkStream stream, DateTime dateTime)
         {
             sentIntOverNetStream(stream, dateTime.Year);
             sentIntOverNetStream(stream, dateTime.Month);

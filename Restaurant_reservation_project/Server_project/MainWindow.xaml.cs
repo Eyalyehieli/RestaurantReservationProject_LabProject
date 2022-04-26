@@ -29,16 +29,16 @@ namespace Server_project
     /// </summary>
     public partial class MainWindow : Window
     {
-        public const int NUMBER_OF_CLIENTS = 3;
+       
         public const int NUMBER_OF_TABLES = 29;
         string ManagerCode;
         TcpListener serverInput = new TcpListener(IPAddress.Parse("127.0.0.1"), 8000);
         TcpListener serverOutput = new TcpListener(IPAddress.Parse("127.0.0.1"), 8001);//becase i want to send data to client but he is wait for data
-        TcpClient[] clientsInput = new TcpClient[NUMBER_OF_CLIENTS];
-        TcpClient[] clientsOutput = new TcpClient[NUMBER_OF_CLIENTS];
-        NetworkStream[] streamsInput = new NetworkStream[NUMBER_OF_CLIENTS];
-        NetworkStream[] streamsOutput = new NetworkStream[NUMBER_OF_CLIENTS];
-        Thread[] threadsClient = new Thread[NUMBER_OF_CLIENTS];
+        TcpClient[] clientsInput;
+        TcpClient[] clientsOutput;
+        NetworkStream[] streamsInput;
+        NetworkStream[] streamsOutput;
+        Thread[] threadsClient;
         int client_number = 0;
         DataLayer DBServer;
         TableMutex[] mutices = new TableMutex[NUMBER_OF_TABLES];
@@ -61,6 +61,8 @@ namespace Server_project
             managerCodeMutex = new Mutex();
             workersCrudMutex = new Mutex();
             dishesCrudMutex = new Mutex();
+            messages_lbl.Visibility = Visibility.Hidden;
+            messages_txb.Visibility = Visibility.Hidden;
         }
 
         public void UpdateTextBlock(TextBlock txb, string text)
@@ -74,13 +76,24 @@ namespace Server_project
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            int numberOfClients = Convert.ToInt32(number_of_clients_txb.Text);
+            clientsInput = new TcpClient[numberOfClients];
+            clientsOutput = new TcpClient[numberOfClients];
+            streamsInput = new NetworkStream[numberOfClients];
+            streamsOutput = new NetworkStream[numberOfClients];
+            threadsClient = new Thread[numberOfClients];
+            messages_lbl.Visibility = Visibility.Visible;
+            messages_txb.Visibility = Visibility.Visible;
+            start_btn.Visibility = Visibility.Hidden;
+            number_of_clients_txb.Visibility = Visibility.Hidden;
+            number_of_clients_lbl.Visibility = Visibility.Hidden;
             Task.Run( () =>
             {
                 serverInput.Start();
                 serverOutput.Start();
                 UpdateTextBlock(messages_txb, "Server waiting for clients..."); 
                 // MessageBox.Show("server waiting for clients...");//TODO:change to UI thread using Updae UI function
-                while (client_number < NUMBER_OF_CLIENTS)
+                while (client_number < numberOfClients)
                 {
                     int current_client_number = client_number;//to synchronized the thread because its start after one loop ycyle is done,because Threa.start() is system call so until in execute the main thread is run
                     clientsInput[client_number] = serverInput.AcceptTcpClient();
@@ -136,9 +149,46 @@ namespace Server_project
                         case NetWorking.Requestes.UPDATE_WORKER_OF_RESERVATION: UpdateTextBlock(messages_txb, "client number " + clientNumber + " UPDATE_WORKER_OF_RESERVATION"); Update_worker_of_reservation(streamsInput[clientNumber]); break;
                         case NetWorking.Requestes.UPDATE_TABLE_NUMBER_OF_RESERVATION: UpdateTextBlock(messages_txb, "client number " + clientNumber + " UPDATE_TABLE_NUMBER_OF_RESERVATION"); Update_table_number_of_reservation(streamsInput[clientNumber], clientNumber); break;
                         case NetWorking.Requestes.GET_OCCUPIED_TABLES: UpdateTextBlock(messages_txb, "client number " + clientNumber + " GET_OCCUPIED_TABLES"); Get_occupied_tables(streamsInput[clientNumber]); break;
+                        case NetWorking.Requestes.GET_OPEN_RESERVATION:UpdateTextBlock(messages_txb, "client number " + clientNumber + "GET_OPEN_RESERVATION"); get_open_reservations(streamsInput[clientNumber]);break;
+                        case NetWorking.Requestes.GET_CLOSED_RESERVATION:UpdateTextBlock(messages_txb, "client number " + clientNumber + "GET_CLOSED_RESERVATION"); get_closed_reservation(streamsInput[clientNumber]);break;
                     }
                 }
             });
+        }
+
+        private void get_closed_reservation(NetworkStream stream)
+        {
+            List<Reservation> reservations = DBServer.getClosedReservation();
+            if (reservations.Count == 0) { NetWorking.sentIntOverNetStream(stream, -1);return; }
+            int price;
+            foreach (Reservation res in reservations)
+            {
+                price = 0;
+                NetWorking.sentIntOverNetStream(stream, res.table_number);
+                foreach (dishOfReservation dish in res.allDishes)
+                {
+                    price += dish.price * dish.amount;
+                }
+                NetWorking.sentIntOverNetStream(stream, price);
+                NetWorking.sentStringOverNetStream(stream, res.worker.ToString());
+                NetWorking.sendDateTimeOverNetStream(stream, res.dateTime);
+            }
+        }
+        private void get_open_reservations(NetworkStream stream)
+        {
+            List<Reservation> reservations = DBServer.getOpenReservation();
+            int price;
+            foreach (Reservation res in reservations)
+            {
+                price = 0;
+                NetWorking.sentIntOverNetStream(stream,res.table_number);
+                foreach(dishOfReservation dish in res.allDishes)
+                {
+                    price += dish.price * dish.amount;
+                }
+                NetWorking.sentIntOverNetStream(stream, price);
+                NetWorking.sentStringOverNetStream(stream, res.worker.ToString());
+            }
         }
 
         private void release_dishes_crud_mutex(NetworkStream networkStream)
@@ -413,6 +463,5 @@ namespace Server_project
                 NetWorking.sentStringOverNetStream(stream, priority);
             }
         }
-
     }
 }

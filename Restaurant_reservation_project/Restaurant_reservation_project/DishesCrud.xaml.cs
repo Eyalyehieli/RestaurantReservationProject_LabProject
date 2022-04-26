@@ -25,12 +25,17 @@ namespace Restaurant_reservation_project
         enum DB_EVENT_DISH { EDIT_DISH, INSERT_DISH }
         DB_EVENT_DISH dishDBEvent;
         dishes prevDish;
+        List<string> categories;
         public DishesCrud(NetworkStream stream)
         {
             InitializeComponent();
             this.stream = stream;
             hideProperControls();
-            create_data_grid_columns(dishes_data_grid);
+            categories = new List<string>();
+            categories.Add("main-dishes");
+            categories.Add("firsts");
+            categories.Add("deserts");
+            categories.Add("drinks");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -57,26 +62,10 @@ namespace Restaurant_reservation_project
                     dish = new dishes(seperated_dish[0], Convert.ToInt32(seperated_dish[1]), seperated_dish[2]);
                     dishes_data_grid.Items.Add(dish);
                 }
-                Thread.Sleep(50);
+                Thread.Sleep(20);
             }
             while (stream.DataAvailable);
         }
-        private void create_data_grid_columns(DataGrid dataGrid)
-        {
-            DataGridTextColumn col1 = new DataGridTextColumn();
-            DataGridTextColumn col2 = new DataGridTextColumn();
-            DataGridTextColumn col3 = new DataGridTextColumn();
-            dataGrid.Columns.Add(col1);
-            dataGrid.Columns.Add(col2);
-            dataGrid.Columns.Add(col3);
-            col1.Binding = new Binding("name");
-            col2.Binding = new Binding("price");
-            col3.Binding = new Binding("category");
-            col1.Header = "name";
-            col2.Header = "price";
-            col3.Header = "category";
-        }
-
         private void add_btn_Click(object sender, RoutedEventArgs e)
         {
             showProperControls();
@@ -99,6 +88,11 @@ namespace Restaurant_reservation_project
         private void done_btn_Click(object sender, RoutedEventArgs e)
         {
             //get the prev properties from datagrid
+            if (checkCategotyValidation(category_txb.Text)==false) 
+            {
+                MessageBox.Show("Check Category Validity","Validation",MessageBoxButton.OK,MessageBoxImage.Warning);
+                return;
+            }
             string newCategory = category_txb.Text;
             int newPrice = Convert.ToInt32(price_txb.Text);
             string newName = name_txb.Text;
@@ -121,6 +115,11 @@ namespace Restaurant_reservation_project
             }
             hideProperControls();
             dishes_data_grid.Items.Clear();
+        }
+
+        private bool checkCategotyValidation(string category)
+        {
+            return categories.Contains(category);
         }
 
         private void delete_btn_Click(object sender, RoutedEventArgs e)
@@ -167,6 +166,11 @@ namespace Restaurant_reservation_project
             price_txb.Visibility = Visibility.Hidden;
             name_txb.Visibility = Visibility.Hidden;
             done_btn.Visibility = Visibility.Hidden;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

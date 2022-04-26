@@ -137,5 +137,10 @@ namespace Restaurant_reservation_project
             endTextRange.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
             endTextRange.ApplyPropertyValue(TextElement.FontFamilyProperty, "Arial");
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

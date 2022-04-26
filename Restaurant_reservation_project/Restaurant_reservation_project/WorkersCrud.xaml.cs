@@ -26,29 +26,20 @@ namespace Restaurant_reservation_project
         NetworkStream stream;
         Worker prevWorker;
         DB_EVENTS_WORKER WorkerDBEvent;
+        List<string> priorities;
         public WorkersCrud(NetworkStream stream)
         {
             InitializeComponent();
             this.stream = stream;
-            create_data_grid_columns(workers_data_grid);
             loadWorkers();
             hideProperControls();
-        }
-
-        private void create_data_grid_columns(DataGrid dataGrid)
-        {
-            DataGridTextColumn col1 = new DataGridTextColumn();
-            DataGridTextColumn col2 = new DataGridTextColumn();
-            DataGridTextColumn col3 = new DataGridTextColumn();
-            dataGrid.Columns.Add(col1);
-            dataGrid.Columns.Add(col2);
-            dataGrid.Columns.Add(col3);
-            col1.Binding = new Binding("first_name");
-            col2.Binding = new Binding("last_name");
-            col3.Binding = new Binding("accessPriority");
-            col1.Header = "First Name";
-            col2.Header = "Last Name";
-            col3.Header = "Priority";
+            priorities = new List<string>();
+            priorities.Add("Barman");
+            priorities.Add("Cleaner");
+            priorities.Add("Waiter");
+            priorities.Add("Owner");
+            priorities.Add("Manager");
+            priorities.Add("Chef");
         }
 
         public void loadWorkers()
@@ -65,7 +56,8 @@ namespace Restaurant_reservation_project
                 worker_name_splited = worker_name.Split(' ');
                 w = new Worker(worker_name_splited[0], worker_name_splited[1], priority);
                 int suc= workers_data_grid.Items.Add(w);
-                Thread.Sleep(100);//becase its check if there is data but the server didnt make to send the data
+                Thread.Sleep(20);//becase its check if there is data but the server didnt make it to send the data
+                                 //so it will get out the loop but there is still data
             }
             while (stream.DataAvailable);//race condition
            // workers_data_grid.ItemsSource = items;
@@ -80,6 +72,11 @@ namespace Restaurant_reservation_project
         private void done_btn_Click(object sender, RoutedEventArgs e)
         {
             //get the prev properties from datagrid
+            if(checkPrioritiesValidation(priority_txb.Text)==false)
+            {
+                MessageBox.Show("Check Priority Validity","Validation",MessageBoxButton.OK,MessageBoxImage.Warning);
+                return;
+            }
             string newFirstName = firstName_txb.Text;
             string newLastName = lastName_txb.Text;
             string newPriority = priority_txb.Text;
@@ -103,6 +100,11 @@ namespace Restaurant_reservation_project
             hideProperControls();
             loadWorkers();
          }
+
+        private bool checkPrioritiesValidation(string priority)
+        {
+            return priorities.Contains(priority);
+        }
 
         private void edit_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -162,6 +164,11 @@ namespace Restaurant_reservation_project
             lastName_txb.Visibility = Visibility.Hidden;
             priority_txb.Visibility = Visibility.Hidden;
             done_btn.Visibility = Visibility.Hidden;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

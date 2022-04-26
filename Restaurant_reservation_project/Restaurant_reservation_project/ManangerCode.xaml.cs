@@ -59,7 +59,7 @@ namespace Restaurant_reservation_project
             }
             else
             {
-                MessageBox.Show("Too many numbers");
+                MessageBox.Show("Too Many Numbers","Notice",MessageBoxButton.OK,MessageBoxImage.Warning);
             }
         }
         private void DecPasswordIndex()
@@ -121,7 +121,7 @@ namespace Restaurant_reservation_project
             {
                 if (password[i] != correctPassword[i])
                 {
-                    MessageBox.Show("Incorrect password");
+                    MessageBox.Show("Incorrect Password","Notice",MessageBoxButton.OK,MessageBoxImage.Warning);
                     return false;
                 }
             }
@@ -171,6 +171,11 @@ namespace Restaurant_reservation_project
             {
                 password_lbl.Content += "*";
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

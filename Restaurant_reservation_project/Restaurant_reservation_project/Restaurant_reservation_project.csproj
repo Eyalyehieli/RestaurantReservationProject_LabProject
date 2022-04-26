@@ -104,23 +104,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="dishes.cs" />
+    <Compile Include="Model\dishes.cs" />
     <Compile Include="DishesCrud.xaml.cs">
       <DependentUpon>DishesCrud.xaml</DependentUpon>
     </Compile>
-    <Compile Include="dishOfReservation.cs" />
+    <Compile Include="Model\dishOfReservation.cs" />
     <Compile Include="ManangerCode.xaml.cs">
       <DependentUpon>ManangerCode.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NetWorking.cs" />
+    <Compile Include="Business\NetWorking.cs" />
     <Compile Include="Recepit.xaml.cs">
       <DependentUpon>Recepit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reservation.cs" />
+    <Compile Include="Model\Reservation.cs" />
+    <Compile Include="Model\showReservation.cs" />
+    <Compile Include="ShowReservations.xaml.cs">
+      <DependentUpon>ShowReservations.xaml</DependentUpon>
+    </Compile>
     <Compile Include="tableReservation.xaml.cs">
       <DependentUpon>tableReservation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Worker.cs" />
+    <Compile Include="Model\Worker.cs" />
     <Compile Include="WorkersCrud.xaml.cs">
       <DependentUpon>WorkersCrud.xaml</DependentUpon>
     </Compile>
@@ -155,6 +159,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ShowReservations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="tableReservation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -182,8 +190,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="libmongocrypt.dylib" />
-    <None Include="libmongocrypt.so" />
+    <None Include="MongoDB\libmongocrypt.dylib" />
+    <None Include="MongoDB\libmongocrypt.so" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -197,7 +205,9 @@
     <Content Include="Core\Compression\Snappy\lib\win\snappy32.dll" />
     <Content Include="Core\Compression\Snappy\lib\win\snappy64.dll" />
     <Content Include="Core\Compression\Zstandard\lib\win\libzstd.dll" />
-    <Content Include="mongocrypt.dll" />
+    <Resource Include="mainLogo.jpg" />
+    <Content Include="MongoDB\mongocrypt.dll" />
+    <Resource Include="wood.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MongoDB.Libmongocrypt.1.2.2\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.2.2\build\MongoDB.Libmongocrypt.targets')" />

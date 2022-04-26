@@ -63,18 +63,22 @@ namespace Restaurant_reservation_project
                 managerCode.ShowDialog();
             }
 
+            //After get into the table reservation, start listening for the server(manager code actviated)
             getRequestThread.Start();
 
+            //Get worker of reservation
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.GET_WORKER_OF_RESERVATION);
             NetWorking.sentIntOverNetStream(streamerOutput, table_number);
             NetWorking.sentBoolOverNetStream(streamerOutput, is_finished);//is_finished=false
             worker_name = NetWorking.getStringOverNetStream(streamerOutput);
 
+            //Is occupied
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.IS_OCCUPEID_TABLE);
             NetWorking.sentIntOverNetStream(streamerOutput, table_number);
             is_occupied = NetWorking.getBoolOverNetStream(streamerOutput);
 
-            if (worker_name == "empty"&&is_occupied==false)//DO NOT NEED IS_OCCUPIED
+            //check if there is worker/ the reservation is open?
+            if (worker_name == "empty"&&is_occupied==false)
             {
                 getWorker = new GetWorkerForTable(streamerOutput,this.table_number);
                 getWorker.ShowDialog();
@@ -86,17 +90,16 @@ namespace Restaurant_reservation_project
             /*NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.WAIT_ONE_TABLE);
             NetWorking.sentIntOverNetStream(streamerOutput, table_number);
             */
-
+            
+            //Get the reservation
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.GET_RESERVATION);
             NetWorking.sentIntOverNetStream(streamerOutput, table_number);
             NetWorking.sentBoolOverNetStream(streamerOutput, false);
             getDishes(reservation_data_grid, RESERVATION_DATA_DRID);
             worker_lbl.Content += worker_name;
 
-            table_num_lbl.Content = "table number " + table_number + " reservation";
-            create_data_grid_columns(dishes_by_category_data_grid);
-            create_data_grid_columns(reservation_data_grid);
-
+            table_num_lbl.Content = "Table Number " + table_number + " Reservation";
+     
             amountOfDishBtn.Visibility = Visibility.Hidden;
             amountOfDishLbl.Visibility = Visibility.Hidden;
             amountOfDishTxb.Visibility = Visibility.Hidden;
@@ -110,7 +113,7 @@ namespace Restaurant_reservation_project
                 mutex_status = NetWorking.getStringOverNetStream(streamerInput);
                 if (mutex_status.Equals("A Manager grabbed the MUTEX")) 
                 {                
-                    MessageBox.Show("Your manager is in the reservation,please wait...");
+                    MessageBox.Show("Your manager Is In The Reservation, Please Wait...","Manager Warning",MessageBoxButton.OK,MessageBoxImage.Stop);
                 }
             }
         }
@@ -122,10 +125,10 @@ namespace Restaurant_reservation_project
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.GET_DISHES_BY_CATEGORY);
             switch (categoryButton.Content)
             {
-                case "main-dishes":NetWorking.sentStringOverNetStream(streamerOutput, "main-dishes");break;
-                case "firsts":NetWorking.sentStringOverNetStream(streamerOutput, "firsts");break;
-                case "deserts":NetWorking.sentStringOverNetStream(streamerOutput, "deserts");break;
-                case "drinks":NetWorking.sentStringOverNetStream(streamerOutput, "drinks");break;
+                case "Main-Dishes":NetWorking.sentStringOverNetStream(streamerOutput, "main-dishes");break;
+                case "Firsts":NetWorking.sentStringOverNetStream(streamerOutput, "firsts");break;
+                case "Deserts":NetWorking.sentStringOverNetStream(streamerOutput, "deserts");break;
+                case "Drinks":NetWorking.sentStringOverNetStream(streamerOutput, "drinks");break;
             }
             getDishes(dishes_by_category_data_grid,DISHES_BY_CATEGORY_DATA_GRID);
         }
@@ -147,6 +150,7 @@ namespace Restaurant_reservation_project
                         dish = new dishes(seperated_dish[0], Convert.ToInt32(seperated_dish[1]), seperated_dish[2]);
                         dataGrid.Items.Add(dish);
                     }
+                    Thread.Sleep(20);
                 }
                 while (streamerOutput.DataAvailable);
             }//TODO:seperate to 2 functions
@@ -162,34 +166,10 @@ namespace Restaurant_reservation_project
                         dishesToAddForReservation.Add(dishOfReservation);//adding the existing dishes to my list
                         dataGrid.Items.Add(dishOfReservation);
                     }
-
-
+                    Thread.Sleep(20);
                 } while (streamerOutput.DataAvailable);
             }
         }
-        private void create_data_grid_columns(DataGrid dataGrid)
-        {
-            DataGridTextColumn col1 = new DataGridTextColumn();
-            DataGridTextColumn col2 = new DataGridTextColumn();
-            DataGridTextColumn col3 = new DataGridTextColumn();
-            dataGrid.Columns.Add(col1);
-            dataGrid.Columns.Add(col2);
-            dataGrid.Columns.Add(col3);
-            col1.Binding = new Binding("name");
-            col2.Binding = new Binding("price");
-            col3.Binding = new Binding("category");
-            col1.Header = "name";
-            col2.Header = "price";
-            col3.Header = "category";
-            if(dataGrid.Name== "reservation_data_grid")
-            {
-                DataGridTextColumn col4 = new DataGridTextColumn();
-                dataGrid.Columns.Add(col4);
-                col4.Binding = new Binding("amount");
-                col4.Header = "amount";
-            }
-        }
-
         private void dishes_by_category_data_grid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid dataGrid = sender as DataGrid;
@@ -205,7 +185,7 @@ namespace Restaurant_reservation_project
                     selected_dish += " ";
                 }
                 seperated_dish = selected_dish.Split(' ');
-                MessageBox.Show(seperated_dish[0] + " selected");
+                //MessageBox.Show(seperated_dish[0] + " selected");
                 ShowAmountOfDish(seperated_dish[0]);
                 amountOfDishButtonAction = () =>
                 {
@@ -222,7 +202,7 @@ namespace Restaurant_reservation_project
             amountOfDishLbl.Visibility = Visibility.Visible;
             amountOfDishTxb.Visibility = Visibility.Visible;
             amountOfDishTxb.Focus();
-            amountOfDishBtn.Content = "approve amount of " + dish + " dish";
+            amountOfDishBtn.Content = "Approve Amount Of " + dish + " Dish";
         }
         public string GetCellGridValue(DataGrid dataGrid,int selectedIndex)
         {
@@ -328,21 +308,21 @@ namespace Restaurant_reservation_project
                 {
                     change_worker_comboBox.Items.Add(worker_name);
                 }
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
             while (streamerOutput.DataAvailable);
         }
-
+        
         private void table_num_lbl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             change_tableNumber_comboBox.Visibility = Visibility.Visible;
             List<int> occupiedTables = new List<int>();
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.GET_OCCUPIED_TABLES);
-            Thread.Sleep(50);
+            Thread.Sleep(10);
             while(streamerOutput.DataAvailable)
             {
                 occupiedTables.Add(NetWorking.getIntOverNetStream(streamerOutput));
-                Thread.Sleep(50);
+                Thread.Sleep(10);
             }
             for(int i=0; i<29;i++)
             {
@@ -371,8 +351,24 @@ namespace Restaurant_reservation_project
             NetWorking.sentIntOverNetStream(streamerOutput, table_number);
             NetWorking.sentIntOverNetStream(streamerOutput, tableNumber);
             change_tableNumber_comboBox.Visibility = Visibility.Hidden;
-            table_num_lbl.Content="table number " + tableNumber + " reservation";
+            table_num_lbl.Content="Table Number " + tableNumber + " Reservation";
             table_number = tableNumber;
+        }
+
+        private void reservation_data_grid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGrid dataGrid = sender as DataGrid;
+            int selectedIndex = dataGrid.SelectedIndex;
+            string dish;
+            if (selectedIndex!=-1)
+            {
+                dish=GetCellGridValue(dataGrid, 0);
+                if(MessageBoxResult.Yes == MessageBox.Show("Are You Share You Want To Delete " + dish + " From The Reservation?","Delete",MessageBoxButton.YesNo,MessageBoxImage.Warning))
+                {
+                    dishesToAddForReservation.RemoveAt(selectedIndex);
+                    dataGrid.Items.RemoveAt(selectedIndex);
+                }
+            }
         }
     }
 }
