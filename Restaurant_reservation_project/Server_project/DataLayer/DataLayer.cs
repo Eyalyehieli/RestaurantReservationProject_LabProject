@@ -19,6 +19,10 @@ namespace Server_project
     /// </summary>
     class DataLayer
     {
+        Worker w;
+        Reservation r;
+        dishes d;
+        dishOfReservation d1;
         private static DataLayer db = null;
         private static readonly object locker = new object();
         IMongoDatabase database=null;
@@ -284,16 +288,18 @@ namespace Server_project
             collection.FindOneAndUpdate(filter, updateDefinition);
         }
 
-        public IEnumerable<Reservation> GetOcuppiedTables()
+        public List<Reservation> GetOcuppiedTables()
         {
             List<Reservation> reservations = LoadRecords<Reservation>("reservation");
+            List<Reservation> NotDoneReservation = new List<Reservation>();
             foreach(Reservation res in reservations)
             {
                 if(res.isFinished==false)
                 {
-                    yield return res;
+                    NotDoneReservation.Add(res);
                 }
             }
+            return NotDoneReservation;
         }
         public List<Reservation> getOpenReservation()
         {

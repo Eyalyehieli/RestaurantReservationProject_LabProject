@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Server_project.MainWindow">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QABAuEIAggIQSZIgAAAEYQHRAAOAABAUBgkBGAUCEMA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="DBServer" />
+      <Field Name="mutices" />
+      <Field Name="d" />
+      <Field Name="d1" />
+      <Field Name="r" />
+      <Field Name="w" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Server_project.dishes">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAAAAAEgAAAAAAAAAAEAIAAAAAIAAAAAAA=</HashCode>
+      <FileName>Model\dishes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server_project.dishOfReservation">
+    <Position X="3.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAEgAAAAAAAAAAEgAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Model\dishOfReservation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server_project.Reservation">
+    <Position X="6" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAIBQAAAAAAAAAAAABAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Model\Reservation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server_project.Worker">
+    <Position X="4" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAQAEgAAAAAAAAAAAAIAAQAAAAAAAQAA=</HashCode>
+      <FileName>Model\Worker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server_project.DataLayer">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>0FAAJCCAAACUIIBAYIAQEIBEBAAAACAFGAgBGQAAAIA=</HashCode>
+      <FileName>DataLayer\DataLayer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="w" />
+      <Field Name="r" />
+      <Field Name="d1" />
+      <Field Name="d" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Server_project.NetWorking">
+    <Position X="0.75" Y="2" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Server_project.NetWorking.Requestes" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Business\NetWorking.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAQAiAAAAIAEBAAAAEAIAAAAA=</HashCode>
+      <FileName>Business\NetWorking.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server_project.TableMutex">
+    <Position X="7.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAQAAAAEAEAAAAAAAAIAIAA=</HashCode>
+      <FileName>Business\TableMutex.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

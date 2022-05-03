@@ -30,7 +30,7 @@ namespace Restaurant_reservation_project
         int type;
         NetworkStream streamer;
         int table_number;
-        public ManangerCode(int type,NetworkStream stream,int table_number)
+        public ManangerCode(int type, NetworkStream stream, int table_number)
         {
             InitializeComponent();
             password = new char[PASSWORD_LENGTH];
@@ -39,6 +39,17 @@ namespace Restaurant_reservation_project
             this.table_number = table_number;
             NetWorking.SendRequest(streamer, NetWorking.Requestes.GET_MANAGER_CODE);
             correctPassword = NetWorking.getStringOverNetStream(streamer);
+        }
+        public ManangerCode(int type,NetworkStream stream,int table_number,bool istoHide)
+        {
+            InitializeComponent();
+            password = new char[PASSWORD_LENGTH];
+            this.type = type;
+            this.streamer = stream;
+            this.table_number = table_number;
+            NetWorking.SendRequest(streamer, NetWorking.Requestes.GET_MANAGER_CODE);
+            correctPassword = NetWorking.getStringOverNetStream(streamer);
+            if (istoHide) { back_btn.Visibility = Visibility.Hidden; }
         }
         public ManangerCode(int type,NetworkStream stream)
         {

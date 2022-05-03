@@ -23,6 +23,7 @@ namespace Restaurant_reservation_project
     public partial class ShowReservations : Window
     {
         NetworkStream stream;
+        showReservation reservation;
         public ShowReservations(NetworkStream stream,String reservations)
         {
             InitializeComponent();
@@ -41,15 +42,16 @@ namespace Restaurant_reservation_project
             reservations_lbl.Content = "Open Reservations";
             int table_number, price;
             string worker;
+            int reservationsCount = 0;
             NetWorking.SendRequest(stream,NetWorking.Requestes.GET_OPEN_RESERVATION);
-            do
+            reservationsCount = NetWorking.getIntOverNetStream(stream);
+            for (int i = 0; i < reservationsCount; i++)
             {
                 table_number = NetWorking.getIntOverNetStream(stream);
                 price = NetWorking.getIntOverNetStream(stream);
                 worker = NetWorking.getStringOverNetStream(stream);
-                reservations_dataGrid.Items.Add(new showReservation(table_number, price, worker,DateTime.MinValue));
-                Thread.Sleep(20);
-            } while (stream.DataAvailable);
+                reservations_dataGrid.Items.Add(new showReservation(table_number, price, worker, DateTime.MinValue));
+            }
         }
         public void closedReservations()
         {
@@ -57,17 +59,17 @@ namespace Restaurant_reservation_project
             int table_number, price;
             string worker;
             DateTime dateTime;
+            int reservationsCount = 0;
             NetWorking.SendRequest(stream, NetWorking.Requestes.GET_CLOSED_RESERVATION);
-            do
+            reservationsCount = NetWorking.getIntOverNetStream(stream);
+            for (int i = 0; i < reservationsCount; i++)
             {
                 table_number = NetWorking.getIntOverNetStream(stream);
-                if (table_number == -1) { return; }
                 price = NetWorking.getIntOverNetStream(stream);
                 worker = NetWorking.getStringOverNetStream(stream);
                 dateTime = NetWorking.getDateTimeOverNetStream(stream);
                 reservations_dataGrid.Items.Add(new showReservation(table_number, price, worker, dateTime));
-                Thread.Sleep(20);
-            } while (stream.DataAvailable);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

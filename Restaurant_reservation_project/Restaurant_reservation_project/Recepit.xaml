@@ -5,16 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Restaurant_reservation_project"
         mc:Ignorable="d"
-        Title="Recepit" Height="850" Width="400" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+        Title="Recepit" Height="700" Width="400" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
     <Grid>
-        <RichTextBox Name="rich_txb_recepit" HorizontalAlignment="Left" Height="747" Margin="10,14,0,0" VerticalAlignment="Top" Width="373">
+        <ScrollViewer>
+            <RichTextBox Name="rich_txb_recepit" HorizontalAlignment="Left" Height="747" Margin="13,59,0,0" VerticalAlignment="Top" Width="373">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Button Content="Back" HorizontalAlignment="Left" Margin="283,793,0,0" VerticalAlignment="Top" Width="100" Height="47" Click="Button_Click">
+        </ScrollViewer>
+        <Button Content="Back" HorizontalAlignment="Left" Margin="290,0,0,0" VerticalAlignment="Top" Width="100" Height="47" Click="Button_Click">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>

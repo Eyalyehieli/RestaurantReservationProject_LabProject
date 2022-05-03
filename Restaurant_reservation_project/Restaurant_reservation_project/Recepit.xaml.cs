@@ -23,6 +23,8 @@ namespace Restaurant_reservation_project
     public partial class Recepit : Window
     {
         private Reservation reservation;
+        Worker w;
+        dishes d;
         Random rnd = new Random();
         int payment;
         public Recepit(Reservation reservation)

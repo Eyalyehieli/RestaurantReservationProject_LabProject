@@ -316,7 +316,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Content="Back" HorizontalAlignment="Left" Margin="111,293,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click_1">
+        <Button Name="back_btn" Content="Back" HorizontalAlignment="Left" Margin="111,293,0,0" VerticalAlignment="Top" Width="84" Height="54" Click="Button_Click_1">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>

@@ -28,6 +28,7 @@ namespace Restaurant_reservation_project
     public partial class GetWorkerForTable : Window
     {
         NetworkStream stream;
+        Worker worker;
         private string selected_worker;
         private int table_number;
         public GetWorkerForTable(NetworkStream stream,int table_number)
@@ -41,8 +42,10 @@ namespace Restaurant_reservation_project
         {
             string worker_name;
             String job;
+            int workersCount = 0;
             NetWorking.SendRequest(stream, NetWorking.Requestes.GET_ALL_WORKERS);
-            do
+            workersCount = NetWorking.getIntOverNetStream(stream);
+            for (int i = 0; i < workersCount; i++)
             {
                 worker_name = NetWorking.getStringOverNetStream(stream);
                 job = NetWorking.getStringOverNetStream(stream);
@@ -50,9 +53,7 @@ namespace Restaurant_reservation_project
                 {
                     workers_combo_box.Items.Add(worker_name);
                 }
-                Thread.Sleep(20);//wait for ther server to send the worker,for synchronized
             }
-            while (stream.DataAvailable);
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -61,7 +62,7 @@ namespace Restaurant_reservation_project
             NetWorking.sentStringOverNetStream(stream, selected_worker);
             NetWorking.sentIntOverNetStream(stream, this.table_number);
             NetWorking.sentBoolOverNetStream(stream, false);
-            NetWorking.sentStringOverNetStream(stream, "done");
+            NetWorking.sentIntOverNetStream(stream, 0);
             this.Close();
         }
 

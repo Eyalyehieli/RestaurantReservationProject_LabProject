@@ -29,7 +29,10 @@ namespace Server_project
     /// </summary>
     public partial class MainWindow : Window
     {
-       
+        dishes d;
+        dishOfReservation d1;
+        Reservation r;
+        Worker w;
         public const int NUMBER_OF_TABLES = 29;
         string ManagerCode;
         TcpListener serverInput = new TcpListener(IPAddress.Parse("127.0.0.1"), 8000);
@@ -159,8 +162,8 @@ namespace Server_project
         private void get_closed_reservation(NetworkStream stream)
         {
             List<Reservation> reservations = DBServer.getClosedReservation();
-            if (reservations.Count == 0) { NetWorking.sentIntOverNetStream(stream, -1);return; }
             int price;
+            NetWorking.sentIntOverNetStream(stream,reservations.Count);
             foreach (Reservation res in reservations)
             {
                 price = 0;
@@ -178,6 +181,7 @@ namespace Server_project
         {
             List<Reservation> reservations = DBServer.getOpenReservation();
             int price;
+            NetWorking.sentIntOverNetStream(stream,reservations.Count);
             foreach (Reservation res in reservations)
             {
                 price = 0;
@@ -215,7 +219,9 @@ namespace Server_project
 
         private void Get_occupied_tables(NetworkStream stream)
         {
-            foreach(Reservation res in DBServer.GetOcuppiedTables())
+            List<Reservation> reservations = DBServer.GetOcuppiedTables();
+            NetWorking.sentIntOverNetStream(stream, reservations.Count);
+            foreach(Reservation res in reservations)
             {
                 NetWorking.sentIntOverNetStream(stream, res.table_number);
             }
@@ -386,19 +392,16 @@ namespace Server_project
             string[] workerName = worker_name.Split(' ');
             int table_number = NetWorking.getIntOverNetStream(stream);
             bool is_finished = NetWorking.getBoolOverNetStream(stream);
-         
-            string is_done;
-            do
+
+            int dishesCount = NetWorking.getIntOverNetStream(stream);
+            for (int i = 0; i < dishesCount; i++)
             {
-                is_done = NetWorking.getStringOverNetStream(stream);
-                if (is_done == "done") { break;}
                 string name = NetWorking.getStringOverNetStream(stream);
                 int price = NetWorking.getIntOverNetStream(stream);
                 string category = NetWorking.getStringOverNetStream(stream);
                 int amount = NetWorking.getIntOverNetStream(stream);
-                dishes.Add(new dishOfReservation(name,price,category,amount));
-            } while (is_done=="not done");
-            //while (stream.DataAvailable) ;//because the delay i used done\not done
+                dishes.Add(new dishOfReservation(name, price, category, amount));
+            }
             DBServer.upsert_reservation(table_number, worker_name, is_finished, dishes);
         }
        
@@ -426,6 +429,7 @@ namespace Server_project
             List<dishOfReservation> reservation_by_table_number = DBServer.get_reservationByTableNumber(table_number,isFinished);
             if(reservation_by_table_number!=null)//the problem was that it didnt send "empty" but there was no dish 
             {
+                NetWorking.sentIntOverNetStream(stream, reservation_by_table_number.Count);
                 foreach(dishOfReservation dish in reservation_by_table_number)
                 {
                     dishString = dish.ToString();
@@ -434,8 +438,7 @@ namespace Server_project
             }
             else
             {
-                dishString = "empty";
-                NetWorking.sentStringOverNetStream(stream, dishString);
+                NetWorking.sentIntOverNetStream(stream, 0);
             }
         }
 
@@ -444,6 +447,7 @@ namespace Server_project
             string dishString;
             string category = NetWorking.getStringOverNetStream(stream);
             List<dishes> dishes = DBServer.get_all_dishes_by_category(category);
+            NetWorking.sentIntOverNetStream(stream, dishes.Count);
             foreach(dishes dish in dishes)
             {
                 dishString = dish.ToString();
@@ -455,6 +459,7 @@ namespace Server_project
             string workerString;
             string priority;
             List<Worker> workers = DBServer.get_all_workers();
+            NetWorking.sentIntOverNetStream(stream, workers.Count);
             foreach (Worker worker in workers)
             {
                 workerString = worker.ToString();

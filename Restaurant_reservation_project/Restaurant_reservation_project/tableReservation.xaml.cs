@@ -24,6 +24,10 @@ namespace Restaurant_reservation_project
     /// </summary>
     public partial class tableReservation : Window
     {
+        ManangerCode m;
+        dishes d;
+        Recepit r;
+        Reservation reservation;
         public const int GET_MUTEX = 0;
         public const int GET_ACCESS = 1;
         const int RESERVATION_DATA_DRID = 0;
@@ -59,7 +63,7 @@ namespace Restaurant_reservation_project
             if (!mutex_status)
             {
                 //TODO:add manager code access 1-im manager,2-try again,3-wait
-                ManangerCode managerCode = new ManangerCode(GET_MUTEX, streamerOutput, table_number);
+                ManangerCode managerCode = new ManangerCode(GET_MUTEX, streamerOutput, table_number,true);
                 managerCode.ShowDialog();
             }
 
@@ -110,10 +114,17 @@ namespace Restaurant_reservation_project
             String mutex_status;
             while(true)
             {
-                mutex_status = NetWorking.getStringOverNetStream(streamerInput);
-                if (mutex_status.Equals("A Manager grabbed the MUTEX")) 
-                {                
-                    MessageBox.Show("Your manager Is In The Reservation, Please Wait...","Manager Warning",MessageBoxButton.OK,MessageBoxImage.Stop);
+                if (streamerInput.DataAvailable)
+                {
+                    mutex_status = NetWorking.getStringOverNetStream(streamerInput);
+                    if (mutex_status.Equals("A Manager grabbed the MUTEX"))
+                    {
+                        MessageBox.Show("Your manager Is In The Reservation, this Window will Close", "Manager Warning", MessageBoxButton.OK, MessageBoxImage.Stop);
+                        NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.WAIT_ONE_MUTEX);
+                        NetWorking.sentIntOverNetStream(streamerOutput, table_number);
+                        NetWorking.getBoolOverNetStream(streamerOutput);
+                        this.Dispatcher.Invoke(() => { this.Close(); });
+                    }
                 }
             }
         }
@@ -139,9 +150,12 @@ namespace Restaurant_reservation_project
             string[] seperated_dish;
             dishes dish;
             dishOfReservation dishOfReservation;
+            int dishesCount = 0;
+            int dishesOfReservationCount = 0;
             if (whichDataGrid == DISHES_BY_CATEGORY_DATA_GRID)
             {
-                do
+                dishesCount = NetWorking.getIntOverNetStream(streamerOutput);
+                for (int i = 0; i < dishesCount; i++)
                 {
                     dish_string = NetWorking.getStringOverNetStream(streamerOutput);
                     if (dish_string != "empty")
@@ -150,13 +164,12 @@ namespace Restaurant_reservation_project
                         dish = new dishes(seperated_dish[0], Convert.ToInt32(seperated_dish[1]), seperated_dish[2]);
                         dataGrid.Items.Add(dish);
                     }
-                    Thread.Sleep(20);
                 }
-                while (streamerOutput.DataAvailable);
             }//TODO:seperate to 2 functions
             else if (whichDataGrid == RESERVATION_DATA_DRID)
             {
-                do
+                dishesOfReservationCount = NetWorking.getIntOverNetStream(streamerOutput);
+                for (int i = 0; i < dishesOfReservationCount; i++)
                 {
                     dish_string = NetWorking.getStringOverNetStream(streamerOutput);
                     if (dish_string != "empty")
@@ -166,8 +179,7 @@ namespace Restaurant_reservation_project
                         dishesToAddForReservation.Add(dishOfReservation);//adding the existing dishes to my list
                         dataGrid.Items.Add(dishOfReservation);
                     }
-                    Thread.Sleep(20);
-                } while (streamerOutput.DataAvailable);
+                }
             }
         }
         private void dishes_by_category_data_grid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -233,19 +245,17 @@ namespace Restaurant_reservation_project
             NetWorking.sentIntOverNetStream(streamerOutput, this.table_number);
             NetWorking.sentBoolOverNetStream(streamerOutput, false);
             dishesToAddForReservation = RemoveDuplicates(dishesToAddForReservation);
+            NetWorking.sentIntOverNetStream(streamerOutput, dishesToAddForReservation.Count);
             foreach(dishOfReservation dish in dishesToAddForReservation)
             {
-                NetWorking.sentStringOverNetStream(streamerOutput, "not done");//instead of data availble because i send data and not getting data|synchronize
                 NetWorking.sentStringOverNetStream(streamerOutput, dish.name);
                 NetWorking.sentIntOverNetStream(streamerOutput, dish.price);
                 NetWorking.sentStringOverNetStream(streamerOutput, dish.category);
                 NetWorking.sentIntOverNetStream(streamerOutput, dish.amount);
             }
-            NetWorking.sentStringOverNetStream(streamerOutput, "done");
-            
+  
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.RELEASE_MUTEX);
             NetWorking.sentIntOverNetStream(streamerOutput, table_number);
-            
             this.Close();
         }
 
@@ -273,15 +283,14 @@ namespace Restaurant_reservation_project
             NetWorking.sentIntOverNetStream(streamerOutput, this.table_number);
             NetWorking.sentBoolOverNetStream(streamerOutput, true);//the reservation is end,is_finished=true
             dishesToAddForReservation = RemoveDuplicates(dishesToAddForReservation);
+            NetWorking.sentIntOverNetStream(streamerOutput, dishesToAddForReservation.Count);
             foreach (dishOfReservation dish in dishesToAddForReservation)
             {
-                NetWorking.sentStringOverNetStream(streamerOutput, "not done");//instead of data availble|synchronize because i send data
                 NetWorking.sentStringOverNetStream(streamerOutput, dish.name);
                 NetWorking.sentIntOverNetStream(streamerOutput, dish.price);
                 NetWorking.sentStringOverNetStream(streamerOutput, dish.category);
                 NetWorking.sentIntOverNetStream(streamerOutput, dish.amount);
             }
-            NetWorking.sentStringOverNetStream(streamerOutput, "done");
 
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.RELEASE_MUTEX);
             NetWorking.sentIntOverNetStream(streamerOutput, table_number);
@@ -293,14 +302,15 @@ namespace Restaurant_reservation_project
             recepit.ShowDialog();
             this.Close(); 
         }
-
         private void worker_lbl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             change_worker_comboBox.Visibility = Visibility.Visible;
             string worker_name;
             String priority;
+            int workersCount = 0;
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.GET_ALL_WORKERS);
-            do
+            workersCount = NetWorking.getIntOverNetStream(streamerOutput);
+            for (int i = 0; i < workersCount; i++)
             {
                 worker_name = NetWorking.getStringOverNetStream(streamerOutput);
                 priority = NetWorking.getStringOverNetStream(streamerOutput);
@@ -308,9 +318,7 @@ namespace Restaurant_reservation_project
                 {
                     change_worker_comboBox.Items.Add(worker_name);
                 }
-                Thread.Sleep(10);
             }
-            while (streamerOutput.DataAvailable);
         }
         
         private void table_num_lbl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -318,11 +326,10 @@ namespace Restaurant_reservation_project
             change_tableNumber_comboBox.Visibility = Visibility.Visible;
             List<int> occupiedTables = new List<int>();
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.GET_OCCUPIED_TABLES);
-            Thread.Sleep(10);
-            while(streamerOutput.DataAvailable)
+            int reservationsCount = NetWorking.getIntOverNetStream(streamerOutput);
+            for (int i = 0; i < reservationsCount; i++)
             {
                 occupiedTables.Add(NetWorking.getIntOverNetStream(streamerOutput));
-                Thread.Sleep(10);
             }
             for(int i=0; i<29;i++)
             {

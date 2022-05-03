@@ -190,6 +190,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="MongoDB\libmongocrypt.dylib" />
     <None Include="MongoDB\libmongocrypt.so" />
     <None Include="packages.config" />

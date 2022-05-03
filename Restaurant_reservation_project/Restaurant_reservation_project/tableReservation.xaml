@@ -222,7 +222,7 @@
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="TextElement.FontFamily" Value="Aharoni Bold"/>
-                    <Setter Property="TextElement.FontSize" Value="30"/>
+                    <Setter Property="TextElement.FontSize" Value="15"/>
                     <Setter Property="Background" Value="#181735"/>
                     <Setter Property="Foreground" Value="White"/>
                     <Style.Triggers>

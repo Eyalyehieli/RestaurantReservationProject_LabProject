@@ -43,17 +43,19 @@ namespace Restaurant_reservation_project
             string dish_string;
             string[] seperated_dish;
             dishes dish;
+            int dishesCount = 0;
             dishes_data_grid.Items.Clear();
             Button categoryButton = sender as Button;
             NetWorking.SendRequest(stream, NetWorking.Requestes.GET_DISHES_BY_CATEGORY);
             switch (categoryButton.Content)
             {
-                case "main-dishes": NetWorking.sentStringOverNetStream(stream, "main-dishes"); break;
-                case "firsts": NetWorking.sentStringOverNetStream(stream, "firsts"); break;
-                case "deserts": NetWorking.sentStringOverNetStream(stream, "deserts"); break;
-                case "drinks": NetWorking.sentStringOverNetStream(stream, "drinks"); break;
+                case "Main-Dishes": NetWorking.sentStringOverNetStream(stream, "main-dishes"); break;
+                case "Firsts": NetWorking.sentStringOverNetStream(stream, "firsts"); break;
+                case "Deserts": NetWorking.sentStringOverNetStream(stream, "deserts"); break;
+                case "Drinks": NetWorking.sentStringOverNetStream(stream, "drinks"); break;
             }
-            do
+            dishesCount = NetWorking.getIntOverNetStream(stream);
+            for (int i = 0; i < dishesCount; i++)
             {
                 dish_string = NetWorking.getStringOverNetStream(stream);
                 if (dish_string != "empty")
@@ -62,9 +64,7 @@ namespace Restaurant_reservation_project
                     dish = new dishes(seperated_dish[0], Convert.ToInt32(seperated_dish[1]), seperated_dish[2]);
                     dishes_data_grid.Items.Add(dish);
                 }
-                Thread.Sleep(20);
             }
-            while (stream.DataAvailable);
         }
         private void add_btn_Click(object sender, RoutedEventArgs e)
         {

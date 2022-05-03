@@ -47,20 +47,18 @@ namespace Restaurant_reservation_project
             string worker_name,priority;
             string[] worker_name_splited;
             Worker w;
+            int workersCount = 0;
             workers_data_grid.Items.Clear();
             NetWorking.SendRequest(stream, NetWorking.Requestes.GET_ALL_WORKERS);
-            do
+            workersCount = NetWorking.getIntOverNetStream(stream);
+            for (int i = 0; i < workersCount; i++)
             {
                 worker_name = NetWorking.getStringOverNetStream(stream);
                 priority = NetWorking.getStringOverNetStream(stream);
                 worker_name_splited = worker_name.Split(' ');
                 w = new Worker(worker_name_splited[0], worker_name_splited[1], priority);
-                int suc= workers_data_grid.Items.Add(w);
-                Thread.Sleep(20);//becase its check if there is data but the server didnt make it to send the data
-                                 //so it will get out the loop but there is still data
+                int suc = workers_data_grid.Items.Add(w);
             }
-            while (stream.DataAvailable);//race condition
-           // workers_data_grid.ItemsSource = items;
         }
 
         private void add_btn_Click(object sender, RoutedEventArgs e)

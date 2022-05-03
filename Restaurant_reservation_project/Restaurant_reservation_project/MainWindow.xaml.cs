@@ -26,6 +26,7 @@ namespace Restaurant_reservation_project
     /// </summary>
     public partial class MainWindow : Window
     {
+        int check = 0;
         const int NUMBER_OF_TABLES = 15;
         TcpClient socketOutput = new TcpClient();
         TcpClient socketInput = new TcpClient();
@@ -202,30 +203,26 @@ namespace Restaurant_reservation_project
             } while (!status);
 
             //ask for reservation
+            check++;
             int payment = 0;
             int table_number = Convert.ToInt32(((Button)sender).Content);
             NetworkStream stream = socketOutput.GetStream();
             string dish_string,worker_name;
             string[] seperated_dish;
             dishOfReservation dishOfReservation;
+            int dishesCount;
             NetWorking.SendRequest(stream, NetWorking.Requestes.GET_RESERVATION);
             NetWorking.sentIntOverNetStream(stream, table_number);
             NetWorking.sentBoolOverNetStream(stream, false);
-
-            //get dishes if reservation and add to the tableGrid
-            do
+            dishesCount = NetWorking.getIntOverNetStream(stream);
+            for (int i = 0; i < dishesCount; i++)
             {
                 dish_string = NetWorking.getStringOverNetStream(stream);
-                if (dish_string != "empty")
-                {
-                    seperated_dish = dish_string.Split(' ');
-                    dishOfReservation = new dishOfReservation(seperated_dish[0], Convert.ToInt32(seperated_dish[1]), seperated_dish[2], Convert.ToInt32(seperated_dish[3]));
-                    payment += dishOfReservation.price*dishOfReservation.amount;
-                    showTableGrid.Items.Add(dishOfReservation);
-                }
-                Thread.Sleep(15);//wait for the data come to the stream//the situation can be there is data but the stream.DataAvailable 
-                                 //is false because the data haven't arrived yet
-            } while (stream.DataAvailable);
+                seperated_dish = dish_string.Split(' ');
+                dishOfReservation = new dishOfReservation(seperated_dish[0], Convert.ToInt32(seperated_dish[1]), seperated_dish[2], Convert.ToInt32(seperated_dish[3]));
+                payment += dishOfReservation.price * dishOfReservation.amount;
+                showTableGrid.Items.Add(dishOfReservation);
+            }
 
             if (showTableGrid.Items.Count > 0)
             {
