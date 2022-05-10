@@ -45,16 +45,16 @@ namespace Restaurant_reservation_project
         string worker_name;
         int table_number;
         bool mutex_status;
-        Thread getRequestThread;
-        public tableReservation(TcpClient socketOutput,TcpClient socketInput  ,int table_number)
+        Action unsubscribeFromMutex;
+        public tableReservation(TcpClient socketOutput,int table_number)
         {
+            MainWindow.OnMutex += getRequest;
+            unsubscribeFromMutex = () => MainWindow.OnMutex -= getRequest;
             InitializeComponent();
             streamerOutput = socketOutput.GetStream();
-            streamerInput = socketInput.GetStream();
             this.table_number = table_number;
             change_tableNumber_comboBox.Visibility = Visibility.Hidden;
             change_worker_comboBox.Visibility = Visibility.Hidden;
-            getRequestThread = new Thread(getRequest);
             //get mutex
 
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.WAIT_ONE_MUTEX);
@@ -66,9 +66,6 @@ namespace Restaurant_reservation_project
                 ManangerCode managerCode = new ManangerCode(GET_MUTEX, streamerOutput, table_number,true);
                 managerCode.ShowDialog();
             }
-
-            //After get into the table reservation, start listening for the server(manager code actviated)
-            getRequestThread.Start();
 
             //Get worker of reservation
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.GET_WORKER_OF_RESERVATION);
@@ -109,24 +106,14 @@ namespace Restaurant_reservation_project
             amountOfDishTxb.Visibility = Visibility.Hidden;
         }
 
-        public void getRequest()
+        public void getRequest(object sender, EventArgs args)
         {
-            String mutex_status;
-            while(true)
-            {
-                if (streamerInput.DataAvailable)
-                {
-                    mutex_status = NetWorking.getStringOverNetStream(streamerInput);
-                    if (mutex_status.Equals("A Manager grabbed the MUTEX"))
-                    {
-                        MessageBox.Show("Your manager Is In The Reservation, this Window will Close", "Manager Warning", MessageBoxButton.OK, MessageBoxImage.Stop);
-                        NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.WAIT_ONE_MUTEX);
-                        NetWorking.sentIntOverNetStream(streamerOutput, table_number);
-                        NetWorking.getBoolOverNetStream(streamerOutput);
-                        this.Dispatcher.Invoke(() => { this.Close(); });
-                    }
-                }
-            }
+            this.Dispatcher.Invoke(() => {
+                this.IsEnabled = false;
+                MessageBox.Show("Your manager Is In The Reservation, this Window will Close", "Manager Warning", MessageBoxButton.OK, MessageBoxImage.Stop);
+                this.unsubscribeFromMutex();
+                this.Close();  
+            });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -240,6 +227,7 @@ namespace Restaurant_reservation_project
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            unsubscribeFromMutex();
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.UPSERT_RESERVATION);
             NetWorking.sentStringOverNetStream(streamerOutput, worker_name);
             NetWorking.sentIntOverNetStream(streamerOutput, this.table_number);
@@ -278,6 +266,7 @@ namespace Restaurant_reservation_project
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            unsubscribeFromMutex();
             NetWorking.SendRequest(streamerOutput, NetWorking.Requestes.UPSERT_RESERVATION);
             NetWorking.sentStringOverNetStream(streamerOutput, worker_name);
             NetWorking.sentIntOverNetStream(streamerOutput, this.table_number);

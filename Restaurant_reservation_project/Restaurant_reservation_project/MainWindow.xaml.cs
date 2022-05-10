@@ -33,6 +33,7 @@ namespace Restaurant_reservation_project
         int[] isTableCreatedCounter = new int[NUMBER_OF_TABLES + 1];//put it in the server
         tableReservation[] tbl_reservations = new tableReservation[NUMBER_OF_TABLES + 1];
         List<Button> listButtons = new List<Button>();
+        Thread socketInputThread;
         Semaphore mouseEnterMutex;
         public MainWindow()
         {
@@ -41,8 +42,39 @@ namespace Restaurant_reservation_project
             showIternalTables();
             socketOutput.Connect(IPAddress.Parse("127.0.0.1"), 8000);
             socketInput.Connect(IPAddress.Parse("127.0.0.1"), 8001);
+            socketInputThread = new Thread(() => getRequest());
+            socketInputThread.IsBackground = true;
+            socketInputThread.Start();
             mouseEnterMutex = new Semaphore(1,1);
         }
+
+        public static event EventHandler OnMutex;
+
+        private void getRequest()
+        {
+            try
+            {
+                while (true)
+                {
+                    bool mutex_status;
+                    mutex_status = NetWorking.getBoolOverNetStream(socketInput.GetStream());
+                    if (mutex_status)
+                    {
+                        EventHandler onMutexRef = OnMutex;
+                        if (onMutexRef != null)
+                        {
+                            onMutexRef.Invoke(this, EventArgs.Empty);
+                        }
+                    }
+                }
+            } catch (ThreadInterruptedException)
+            {
+
+            }
+            
+            
+        }
+
 
         public bool isTableButton(Button b)
         {
@@ -107,7 +139,7 @@ namespace Restaurant_reservation_project
         {
             Button table_pressed_button = sender as Button;
             int table_number = Int32.Parse(table_pressed_button.Content.ToString());
-            tbl_reservations[table_number] = new tableReservation(socketOutput, socketInput, table_number);
+            tbl_reservations[table_number] = new tableReservation(socketOutput, table_number);
             this.Hide();
             tbl_reservations[table_number].ShowDialog();
             this.Show();

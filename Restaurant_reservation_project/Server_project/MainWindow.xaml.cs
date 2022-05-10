@@ -34,7 +34,7 @@ namespace Server_project
         Reservation r;
         Worker w;
         public const int NUMBER_OF_TABLES = 29;
-        string ManagerCode;
+        public string ManagerCode;
         TcpListener serverInput = new TcpListener(IPAddress.Parse("127.0.0.1"), 8000);
         TcpListener serverOutput = new TcpListener(IPAddress.Parse("127.0.0.1"), 8001);//becase i want to send data to client but he is wait for data
         TcpClient[] clientsInput;
@@ -360,7 +360,7 @@ namespace Server_project
             previousClientStreamer = streamsOutput[mutices[table_number-1].getClientNumber()];
             mutices[table_number - 1].setClientNumber(TableMutex.NONE_TABLE);
             //TODO:2-send the current catcher client a message
-            NetWorking.sentStringOverNetStream(previousClientStreamer, "A Manager grabbed the MUTEX");
+            NetWorking.sentBoolOverNetStream(previousClientStreamer,true);//send signal to the client about the manager
             //3- catch the mutex to the manager client
             status = mutices[table_number - 1].getMutex().WaitOne(500);
             if (status)
